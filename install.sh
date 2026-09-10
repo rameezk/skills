@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+REPO_URL="https://github.com/rameezk/skills.git"
+PASSTHROUGH_ARGS=("$@")
+
+usage() {
+  cat <<'EOF'
+Usage: install.sh [options]
+
+All args are passed through to scripts/install-direct.sh
+(e.g. --mode).
+EOF
+}
+
+if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
+  usage
+  exit 0
+fi
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [[ -x "$SCRIPT_DIR/scripts/install-direct.sh" ]]; then
+  exec "$SCRIPT_DIR/scripts/install-direct.sh" --source "$SCRIPT_DIR" "${PASSTHROUGH_ARGS[@]}"
+fi
+
+if ! command -v git >/dev/null 2>&1; then
+  echo "git is required for curl/piped install mode."
+  exit 1
+fi
+
+TMP_DIR="$(mktemp -d)"
+cleanup() {
+  rm -rf "$TMP_DIR"
+}
+trap cleanup EXIT
+
+git clone --depth 1 "$REPO_URL" "$TMP_DIR/repo" >/dev/null 2>&1
+exec "$TMP_DIR/repo/scripts/install-direct.sh" --source "$TMP_DIR/repo" "${PASSTHROUGH_ARGS[@]}"
