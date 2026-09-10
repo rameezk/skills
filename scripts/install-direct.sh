@@ -2,30 +2,18 @@
 set -euo pipefail
 
 TARGET_DIR="$PWD"
-MODE="copy"
-SOURCE_DIR=""
 
 usage() {
   cat <<'EOF'
 Usage: install-direct.sh [options]
 
 Options:
-  --mode <mode>      copy | symlink (default: copy)
-  --source <path>    Source skills repo root (auto-detected if omitted)
   -h, --help         Show help
 EOF
 }
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --mode)
-      MODE="$2"
-      shift 2
-      ;;
-    --source)
-      SOURCE_DIR="$2"
-      shift 2
-      ;;
     -h|--help)
       usage
       exit 0
@@ -38,15 +26,8 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-if [[ "$MODE" != "copy" && "$MODE" != "symlink" ]]; then
-  echo "Invalid mode: $MODE (expected: copy or symlink)"
-  exit 1
-fi
-
-if [[ -z "$SOURCE_DIR" ]]; then
-  SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-  SOURCE_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
-fi
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SOURCE_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 if [[ ! -d "$TARGET_DIR" ]]; then
   echo "Target directory does not exist: $TARGET_DIR"
@@ -97,32 +78,26 @@ choose_skills() {
 
   for item in "${picked[@]}"; do
     local src="$dir/$item"
-    local dst="$TARGET_DIR/skills/$item"
+    local dst="$TARGET_DIR/.agents/skills/$item"
 
     mkdir -p "$(dirname "$dst")"
 
     if [[ -e "$dst" || -L "$dst" ]]; then
-      read -r -p "'skills/$item' exists in target. Overwrite? [y/N] " overwrite
+      read -r -p "'.agents/skills/$item' exists in target. Overwrite? [y/N] " overwrite
       if [[ ! "$overwrite" =~ ^[Yy]$ ]]; then
-        echo "Skipped skills/$item"
+        echo "Skipped .agents/skills/$item"
         continue
       fi
       rm -rf "$dst"
     fi
 
-    if [[ "$MODE" == "symlink" ]]; then
-      ln -s "$src" "$dst"
-      echo "Linked skills/$item"
-    else
-      cp -R "$src" "$dst"
-      echo "Copied skills/$item"
-    fi
+    cp -R "$src" "$dst"
+    echo "Copied .agents/skills/$item"
   done
 }
 
 echo "Source: $SOURCE_DIR"
 echo "Target: $TARGET_DIR"
-echo "Mode:   $MODE"
 
 choose_skills
 
