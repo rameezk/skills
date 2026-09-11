@@ -38,7 +38,7 @@
               pkgs.gnugrep
             ];
             text = ''
-              exec "${self}/scripts/install-direct.sh" "$@"
+              exec "${self}/scripts/do-install.sh" "$@"
             '';
           };
         in

@@ -16,8 +16,8 @@ if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
 fi
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-if [[ -x "$SCRIPT_DIR/scripts/install-direct.sh" ]]; then
-  exec "$SCRIPT_DIR/scripts/install-direct.sh" "${PASSTHROUGH_ARGS[@]}"
+if [[ -x "$SCRIPT_DIR/scripts/do-install.sh" ]]; then
+  exec "$SCRIPT_DIR/scripts/do-install.sh" "${PASSTHROUGH_ARGS[@]}"
 fi
 
 if ! command -v git >/dev/null 2>&1; then
@@ -32,4 +32,4 @@ cleanup() {
 trap cleanup EXIT
 
 git clone --depth 1 "$REPO_URL" "$TMP_DIR/repo" >/dev/null 2>&1
-exec "$TMP_DIR/repo/scripts/install-direct.sh" "${PASSTHROUGH_ARGS[@]}"
+exec "$TMP_DIR/repo/scripts/do-install.sh" "${PASSTHROUGH_ARGS[@]}"

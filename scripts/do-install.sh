@@ -5,7 +5,7 @@ TARGET_DIR="$PWD"
 
 usage() {
   cat <<'EOF'
-Usage: install-direct.sh [options]
+Usage: do-install.sh [options]
 
 Options:
   -h, --help         Show help
