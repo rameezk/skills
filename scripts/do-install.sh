@@ -90,10 +90,12 @@ choose_skills() {
         INSTALLED_SKILLS+=("$item")
         continue
       fi
+      chmod -R u+w "$dst"
       rm -rf "$dst"
     fi
 
     cp -R "$src" "$dst"
+    chmod -R u+w "$dst"
     echo "Copied .agents/skills/$item"
     INSTALLED_SKILLS+=("$item")
   done
