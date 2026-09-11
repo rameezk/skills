@@ -15,9 +15,11 @@ if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
   exit 0
 fi
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-if [[ -x "$SCRIPT_DIR/scripts/do-install.sh" ]]; then
-  exec "$SCRIPT_DIR/scripts/do-install.sh" "${PASSTHROUGH_ARGS[@]}"
+if [[ -n "${BASH_SOURCE[0]:-}" ]]; then
+  SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+  if [[ -x "$SCRIPT_DIR/scripts/do-install.sh" ]]; then
+    exec "$SCRIPT_DIR/scripts/do-install.sh" "${PASSTHROUGH_ARGS[@]}"
+  fi
 fi
 
 if ! command -v git >/dev/null 2>&1; then
