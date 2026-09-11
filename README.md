@@ -1,7 +1,5 @@
 # skills
 
-Harness-agnostic catalog of reusable `skills/`.
-
 ## Install into another repo
 
 ### Nix
