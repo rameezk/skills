@@ -2,6 +2,7 @@
 set -euo pipefail
 
 TARGET_DIR="$PWD"
+INSTALLED_SKILLS=()
 
 usage() {
   cat <<'EOF'
@@ -86,6 +87,7 @@ choose_skills() {
       read -r -p "'.agents/skills/$item' exists in target. Overwrite? [y/N] " overwrite
       if [[ ! "$overwrite" =~ ^[Yy]$ ]]; then
         echo "Skipped .agents/skills/$item"
+        INSTALLED_SKILLS+=("$item")
         continue
       fi
       rm -rf "$dst"
@@ -93,13 +95,63 @@ choose_skills() {
 
     cp -R "$src" "$dst"
     echo "Copied .agents/skills/$item"
+    INSTALLED_SKILLS+=("$item")
   done
+}
+
+link_skills_claude_code() {
+  local link_root="$TARGET_DIR/.claude/skills"
+
+  if [[ ${#INSTALLED_SKILLS[@]} -eq 0 ]]; then
+    echo "No installed skills to link into .claude/skills."
+    return 0
+  fi
+
+  mkdir -p "$link_root"
+
+  for item in "${INSTALLED_SKILLS[@]}"; do
+    local dst="$link_root/$item"
+    local target="../../.agents/skills/$item"
+
+    if [[ -e "$dst" || -L "$dst" ]]; then
+      read -r -p "'.claude/skills/$item' exists in target. Overwrite? [y/N] " overwrite
+      if [[ ! "$overwrite" =~ ^[Yy]$ ]]; then
+        echo "Skipped .claude/skills/$item"
+        continue
+      fi
+      rm -rf "$dst"
+    fi
+
+    ln -s "$target" "$dst"
+    echo "Linked .claude/skills/$item -> .agents/skills/$item"
+  done
+}
+
+choose_harness() {
+  echo
+  echo "Which coding harness are you using? (number, or Enter to skip):"
+  echo "  [0] None"
+  echo "  [1] Claude Code"
+
+  read -r -p "> " selection
+  case "$selection" in
+    "" | 0)
+      return 0
+      ;;
+    1)
+      link_skills_claude_code
+      ;;
+    *)
+      echo "Skipping invalid selection: $selection"
+      ;;
+  esac
 }
 
 echo "Source: $SOURCE_DIR"
 echo "Target: $TARGET_DIR"
 
 choose_skills
+choose_harness
 
 echo
 echo "Done."
