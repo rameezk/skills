@@ -27,6 +27,10 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
+if [[ ! -t 0 ]] && { : </dev/tty; } 2>/dev/null; then
+  exec </dev/tty
+fi
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SOURCE_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 
