@@ -34,6 +34,7 @@ Create a dedicated Git worktree before making implementation changes. Keep the u
 
 2. Determine:
    - the base commit or branch (use the user's requested base; otherwise infer the repository's normal base branch)
+   - ensure the base branch is up to date
    - a short, descriptive branch name. Default to the conventional-commits-style pattern `<type>/<short-description>` (for example `feat/add-search`, `fix/null-pointer-crash`, `refactor/extract-utils`), unless the repository defines its own naming convention
    - a worktree path outside the current checkout, normally a sibling directory
 
@@ -59,8 +60,6 @@ Create a dedicated Git worktree before making implementation changes. Keep the u
    ```
 
 5. Perform all subsequent edits, builds, and tests in the new worktree. Clearly report the worktree path and branch name to the user.
-
-6. When the work is ready to commit, write Conventional Commits messages (`feat:`, `fix:`, `refactor:`, `docs:`, `test:`, `chore:`, …) matching the branch type, unless the repository's history indicates a different style.
 
 ## Cleaning up a worktree
 
