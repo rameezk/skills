@@ -36,11 +36,18 @@ Create a dedicated Git worktree before making implementation changes. Keep the u
    - the base commit or branch (use the user's requested base; otherwise infer the repository's normal base branch)
    - ensure the base branch is up to date
    - a short, descriptive branch name. Default to the conventional-commits-style pattern `<type>/<short-description>` (for example `feat/add-search`, `fix/null-pointer-crash`, `refactor/extract-utils`), unless the repository defines its own naming convention
-   - a worktree path outside the current checkout, normally a sibling directory
+   - a worktree path inside a `.worktree/` directory at the repository root, named after the branch (for example `.worktree/feat/add-search`)
 
    Do not fetch, pull, stash, reset, or modify existing changes unless the user explicitly approves it.
 
-3. If the branch does not exist, create the worktree and branch together:
+3. Ensure `.worktree/` is excluded from Git so the nested worktree never appears as untracked content or is accidentally committed. Use `.git/info/exclude` (local to the clone) rather than the tracked `.gitignore`, so the user's working tree is left untouched:
+
+   ```bash
+   exclude_file="$(git rev-parse --git-common-dir)/info/exclude"
+   grep -qxF '.worktree/' "$exclude_file" 2>/dev/null || echo '.worktree/' >> "$exclude_file"
+   ```
+
+4. If the branch does not exist, create the worktree and branch together:
 
    ```bash
    git worktree add -b <branch-name> <worktree-path> <base>
@@ -52,14 +59,14 @@ Create a dedicated Git worktree before making implementation changes. Keep the u
    git worktree add <worktree-path> <branch-name>
    ```
 
-4. Change into the new worktree and verify it before doing any work:
+5. Change into the new worktree and verify it before doing any work:
 
    ```bash
    cd <worktree-path>
    git status --short --branch
    ```
 
-5. Perform all subsequent edits, builds, and tests in the new worktree. Clearly report the worktree path and branch name to the user.
+6. Perform all subsequent edits, builds, and tests in the new worktree. Clearly report the worktree path and branch name to the user.
 
 ## Cleaning up a worktree
 
