@@ -1,14 +1,12 @@
 # skills
 
-## Install into another repo
-
-### Nix
+## Nix
 
 ```bash
 nix run github:rameezk/skills#install
 ```
 
-### Bash (no Nix)
+## Bash
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/rameezk/skills/main/install.sh | bash
