@@ -1,6 +1,6 @@
 ---
 name: git-branching
-description: The authority on git branch naming and lifecycle - how to name branches (a `<type>/<short-description>` convention), branch off an up-to-date default branch, and clean up branches after merge. Use when naming a branch, creating one in the current checkout, or deleting/pruning merged branches. For starting new implementation work, prefer the isolated-work skill (worktree isolation), which follows this naming convention.
+description: The authority on git branch naming and lifecycle - how to name branches (a `<type>/<short-description>` convention), branch off an up-to-date default branch, and clean up branches after merge. Use when naming a branch, creating one in the current checkout, or deleting/pruning merged branches. For starting new implementation work, prefer the git-worktree skill (worktree isolation), which follows this naming convention.
 ---
 
 # Git Branching
@@ -10,7 +10,7 @@ description: The authority on git branch naming and lifecycle - how to name bran
 The single source of truth for how branches are named and managed, so work
 stays reviewable and traceable to its origin.
 
-For starting new implementation work, prefer the `isolated-work` skill: it
+For starting new implementation work, prefer the `git-worktree` skill: it
 branches in a separate worktree so the current checkout is left untouched, and
 it follows the naming convention below. Use the in-place branch creation here
 only when NOT using a worktree - for example when the user explicitly asks to
@@ -59,7 +59,7 @@ branch regardless of where HEAD was.
 ## Guardrails
 
 - Dirty working tree when asked to branch in place: stop and report. Don't
-  silently stash or discard. (For a dirty tree, `isolated-work` sidesteps the
+  silently stash or discard. (For a dirty tree, `git-worktree` sidesteps the
   problem by branching in a separate worktree.)
 
 ## Cleanup

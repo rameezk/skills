@@ -1,9 +1,9 @@
 ---
-name: isolated-work
-description: Create an isolated Git worktree and do all implementation work there, keeping the user's current working tree and uncommitted changes untouched. Use before making ANY code changes in a Git repository — new features, bug fixes, refactors, tests, or experiments. Skip only when the task is read-only, the user explicitly asks to work in the current checkout, or no Git repository exists.
+name: git-worktree
+description: Create an isolated Git worktree and do all implementation work there, keeping the user's current working tree and uncommitted changes untouched. Use before making ANY code changes in a Git repository - new features, bug fixes, refactors, tests, or experiments. Skip only when the task is read-only, the user explicitly asks to work in the current checkout, or no Git repository exists.
 ---
 
-# Isolated Work
+# Git Worktree
 
 Create a dedicated Git worktree before making implementation changes. Keep the user's current working tree and any uncommitted changes untouched.
 
