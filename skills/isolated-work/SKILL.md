@@ -35,7 +35,7 @@ Create a dedicated Git worktree before making implementation changes. Keep the u
 2. Determine:
    - the base commit or branch (use the user's requested base; otherwise infer the repository's normal base branch)
    - ensure the base branch is up to date
-   - a short, descriptive branch name. Default to the conventional-commits-style pattern `<type>/<short-description>` (for example `feat/add-search`, `fix/null-pointer-crash`, `refactor/extract-utils`), unless the repository defines its own naming convention
+   - a short, descriptive branch name following the `git-branching` skill's naming convention (`<type>/<short-description>`, for example `feat/add-search`, `fix/null-pointer-crash`, `refactor/extract-utils`), unless the repository defines its own naming convention
    - a worktree path inside a `.worktree/` directory at the repository root, named after the branch (for example `.worktree/feat/add-search`)
 
    Do not fetch, pull, stash, reset, or modify existing changes unless the user explicitly approves it.
