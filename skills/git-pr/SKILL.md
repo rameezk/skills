@@ -76,4 +76,3 @@ Anything else: follow-ups, trade-offs, risks, screenshots. Link issues with `Clo
 - Vague titles: `fix: bug`, `update`, `changes`
 - Empty or one-word descriptions that make reviewers reverse-engineer intent
 - Bundling unrelated commits into one PR
-- Inventing a per-task PR style instead of following the convention

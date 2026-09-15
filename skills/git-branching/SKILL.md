@@ -1,6 +1,6 @@
 ---
 name: git-branching
-description: The authority on git branch naming and lifecycle - how to name branches (a `<type>/<short-description>` convention), branch off an up-to-date default branch, and clean up branches after merge. Use when naming a branch, creating one in the current checkout, or deleting/pruning merged branches. For starting new implementation work, prefer the git-worktree skill (worktree isolation), which follows this naming convention.
+description: Name git branches and manage their lifecycle: the `<type>/<short-description>` convention, branching off an up-to-date default, and cleanup after merge. Use when naming, creating in the current checkout, or pruning merged branches. For new implementation work prefer git-worktree (isolation), which follows this convention.
 ---
 
 # Git Branching
@@ -67,4 +67,3 @@ branch regardless of where HEAD was.
 
 - Speculative branches created "just in case"
 - Reusing an old branch for unrelated new work
-- Inventing a naming scheme per task instead of following the convention

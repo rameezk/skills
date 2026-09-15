@@ -61,4 +61,3 @@ Rules:
 - Vague subjects: `fix: bug`, `chore: stuff`, `update`
 - Catch-all commits that bundle unrelated changes
 - Committing generated artifacts, secrets, or debug leftovers
-- Inventing a per-task message style instead of following the convention
