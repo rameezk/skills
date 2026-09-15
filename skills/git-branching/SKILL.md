@@ -1,6 +1,6 @@
 ---
 name: git-branching
-description: Name git branches and manage their lifecycle: the `<type>/<short-description>` convention, branching off an up-to-date default, and cleanup after merge. Use when naming, creating in the current checkout, or pruning merged branches. For new implementation work prefer git-worktree (isolation), which follows this convention.
+description: Name git branches and manage their lifecycle - the `<type>/<short-description>` convention, branching off an up-to-date default, and cleanup after merge. Use when naming, creating in the current checkout, or pruning merged branches. For new implementation work prefer git-worktree (isolation), which follows this convention.
 ---
 
 # Git Branching
