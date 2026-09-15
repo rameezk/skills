@@ -1,0 +1,43 @@
+---
+name: refine
+description: Refine a piece of work - a new feature, a refactor, a bug fix - through questioning until a shared understanding is reached and the plan is ready to build.
+disable-model-invocation: true
+---
+
+# Refine
+
+Question the user hard, and keep going until both of you actually agree on what gets built. Hold off on any implementation until that agreement is explicit.
+
+## How it works
+
+Treat the plan as a **design tree**: each choice opens up the smaller choices that sit beneath it. Walk down every branch so nothing important is left to assumption.
+
+Move through the tree in **rounds**, guided by the **frontier** - the set of choices whose inputs are already decided, so you can raise them now without second-guessing answers you don't have yet. Put the entire frontier to the user in a single round, then hold for their replies before continuing. If a question hinges on another that's still unanswered this round, save it for a later one.
+
+Every set of answers redraws the tree: resolved choices extend the frontier and open up whatever was waiting on them. Rebuild the frontier from there and run the next round.
+
+## Round format
+
+Number the questions and lead each with the answer you'd pick, so the user can sign off with a single word.
+
+```
+❓ **Q1** - **<question title>**: <question body, may run several paragraphs, including options>
+
+💡 <the answer you'd pick>
+
+---
+
+❓ **Q2** - **<question title>**: <question body>
+
+💡 <the answer you'd pick>
+```
+
+## Finding facts
+
+Digging up facts is on you, not the user. When a question turns on something in the environment - a file, a config value, an installed dependency, how some code behaves - send a subagent to find out rather than asking the user for what you could check yourself.
+
+Don't stall the round waiting on it. An in-flight lookup is just another unresolved input, so only the questions that depend on its result wait; raise the rest of the frontier right away.
+
+## Completion
+
+The calls belong to the user: surface each one and wait for it. You're finished when the frontier runs dry - every branch of the tree walked, nothing quietly assumed. Don't touch the implementation until the user confirms you're aligned.
