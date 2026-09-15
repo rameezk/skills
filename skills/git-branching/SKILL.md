@@ -5,11 +5,6 @@ description: The authority on git branch naming and lifecycle - how to name bran
 
 # Git Branching
 
-## Purpose
-
-The single source of truth for how branches are named and managed, so work
-stays reviewable and traceable to its origin.
-
 For starting new implementation work, prefer the `git-worktree` skill: it
 branches in a separate worktree so the current checkout is left untouched, and
 it follows the naming convention below. Use the in-place branch creation here

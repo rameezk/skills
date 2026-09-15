@@ -5,11 +5,6 @@ description: Create clear, consistent git commits. Use whenever a commit is abou
 
 # Git Committing
 
-## Purpose
-
-Give a consistent, safe way to stage and commit work so history stays clean,
-reviewable, and each commit tells a clear and traceable story.
-
 ## When to use
 
 - The user asks to "commit", "stage", "save work", or "make a commit"
