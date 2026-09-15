@@ -1,6 +1,6 @@
 ---
 name: git-committing
-description: Create clear, consistent git commits. Use when the user or agent asks to commit work or after finishing a logical unit of change. Enforces a commit-message convention and keeps commits focused.
+description: Create clear, consistent git commits. Use whenever a commit is about to be made - both when the user asks to "commit"/"stage"/"save work" and when you the agent reach a committable unit of change mid-task. Never run `git commit` directly instead of invoking this skill. Enforces a commit-message convention and keeps commits focused.
 ---
 
 # Git Committing

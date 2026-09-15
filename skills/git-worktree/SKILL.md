@@ -66,7 +66,7 @@ Create a dedicated Git worktree before making implementation changes. Keep the u
    git status --short --branch
    ```
 
-6. Perform all subsequent edits, builds, and tests in the new worktree. Clearly report the worktree path and branch name to the user.
+6. Perform all subsequent edits, builds, and tests in the new worktree, and clearly report the worktree path and branch name to the user. Committing, merging, and cleanup are handled by their own skills - when a unit of work is ready to record, hand off to the `git-committing` skill rather than running `git commit` ad hoc.
 
 ## Cleaning up a worktree
 
