@@ -15,8 +15,14 @@ By the time this runs, [[refine]] has done the deciding. Do not interview the us
 1. **Read the tracker config.** Look for `.tracker.toml` at the project root. It names where specs go:
 
    ```toml
-   type = "local"        # or "github"
-   # repo = "owner/name" # required when type = "github"
+   type = "local"
+   ```
+
+   or, for a GitHub project:
+
+   ```toml
+   type = "github"
+   repo = "owner/name"
    ```
 
    If no `.tracker.toml` exists, or it is malformed, hand off to [[tracker-config]] to set it up rather than guessing a destination.
