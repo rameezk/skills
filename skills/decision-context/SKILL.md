@@ -41,7 +41,7 @@ An ADR records *that* a decision was made and *why* - not how it was built. Do n
 
 If any one is missing, skip it. An easy-to-reverse decision you'll just reverse; an unsurprising one nobody questions; a decision with no alternative records nothing beyond "we did the obvious thing." Typical qualifiers: architectural shape, technology choices that carry lock-in, boundaries and explicit non-goals, and deliberate deviations from the obvious path.
 
-Use the scaffold in [`adr-template.md`](adr-template.md): Title, Status, Context, Decision, Consequences. Write every section terse - a sentence or two of plain, concrete language, no preamble or restatement. The value is recording *that* a decision was made and *why*, not filling out sections at length.
+Use the scaffold in [`adr-template.md`](adr-template.md): Title, Status, Context, Decision, Consequences. Write every section terse - a sentence or two of plain, concrete language, no preamble or restatement. The value is recording *that* a decision was made and *why*, not filling out sections at length. In the Context section, lay out the alternatives as an explicit list - "Option 1", "Option 2", and so on - rather than as running paragraphs, so a reader can see at a glance what was weighed. Then have the Decision reference the chosen option by its number ("We will go with Option 2: ...").
 
 When a decision is reversed, write a new ADR and set the old one's status to `Superseded by ADR-NNNN`. Never edit a past ADR in place; the record is immutable.
 
