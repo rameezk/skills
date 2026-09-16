@@ -42,7 +42,7 @@ Rules:
 
 - NEVER commit directly on the default branch. If HEAD is on it, stop and
   switch to (or create) a feature branch following `<type>/<short-description>`
-  before committing - the `git-branching` skill covers the full convention and
+  before committing - [[git-branching]] covers the full convention and
   how to branch off an up-to-date default.
 - NEVER add an agent/Claude co-author trailer, attribution, or session
   information to the message.

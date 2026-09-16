@@ -29,7 +29,7 @@ By the time this runs, [[refine]] has done the deciding. Do not interview the us
 
 5. **Publish** to the destination from the config:
    - **local** - write to `docs/specs/NNNN-slug.md`. Number sequentially with 4-digit zero-padding: scan the directory for the highest existing number and add one, starting at `0001` if it is empty.
-   - **github** - publish as a single issue on `repo` via `gh`.
+   - **github** - publish as a single issue on `repo` via `gh`. Title the issue with the feature name and apply a `spec` label, so a fresh session can find it again with `gh issue list --label spec`. The issue URL is the spec's identity - GitHub assigns the number, so there is no `NNNN` to manage here.
 
 ## Completion
 

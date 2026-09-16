@@ -35,7 +35,7 @@ Create a dedicated Git worktree before making implementation changes. Keep the u
 2. Determine:
    - the base commit or branch (use the user's requested base; otherwise infer the repository's normal base branch)
    - ensure the base branch is up to date
-   - a short, descriptive branch name following the `git-branching` skill's naming convention (`<type>/<short-description>`, for example `feat/add-search`, `fix/null-pointer-crash`, `refactor/extract-utils`), unless the repository defines its own naming convention
+   - a short, descriptive branch name following [[git-branching]]'s naming convention (`<type>/<short-description>`, for example `feat/add-search`, `fix/null-pointer-crash`, `refactor/extract-utils`), unless the repository defines its own naming convention
    - a worktree path inside a `.worktree/` directory at the repository root, named after the branch (for example `.worktree/feat/add-search`)
 
    Do not fetch, pull, stash, reset, or modify existing changes unless the user explicitly approves it.
@@ -66,7 +66,7 @@ Create a dedicated Git worktree before making implementation changes. Keep the u
    git status --short --branch
    ```
 
-6. Perform all subsequent edits, builds, and tests in the new worktree, and clearly report the worktree path and branch name to the user. Committing, merging, and cleanup are handled by their own skills - when a unit of work is ready to record, hand off to the `git-committing` skill rather than running `git commit` ad hoc.
+6. Perform all subsequent edits, builds, and tests in the new worktree, and clearly report the worktree path and branch name to the user. Committing, merging, and cleanup are handled by their own skills - when a unit of work is ready to record, hand off to [[git-committing]] rather than running `git commit` ad hoc.
 
 ## Cleaning up a worktree
 

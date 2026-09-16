@@ -18,7 +18,7 @@
 
 ## Implementation Notes
 
-{The decisions that shape the build: modules and interfaces touched, contracts, schema changes. Decisions, not file paths or code. A durable, hard-to-reverse decision goes to an ADR via decision-context; reference it here rather than restating it.}
+{The decisions that shape the build - modules and interfaces touched, contracts, schema changes.}
 
 ## Testing & Seams
 

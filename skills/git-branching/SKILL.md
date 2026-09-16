@@ -5,7 +5,7 @@ description: Name git branches and manage their lifecycle - the `<type>/<short-d
 
 # Git Branching
 
-For starting new implementation work, prefer the `git-worktree` skill: it
+For starting new implementation work, prefer [[git-worktree]]: it
 branches in a separate worktree so the current checkout is left untouched, and
 it follows the naming convention below. Use the in-place branch creation here
 only when NOT using a worktree - for example when the user explicitly asks to
@@ -54,7 +54,7 @@ branch regardless of where HEAD was.
 ## Guardrails
 
 - Dirty working tree when asked to branch in place: stop and report. Don't
-  silently stash or discard. (For a dirty tree, `git-worktree` sidesteps the
+  silently stash or discard. (For a dirty tree, [[git-worktree]] sidesteps the
   problem by branching in a separate worktree.)
 
 ## Cleanup

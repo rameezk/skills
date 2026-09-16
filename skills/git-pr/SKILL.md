@@ -10,8 +10,8 @@ description: Prepare and open a GitHub pull request cleanly and consistently. Us
 - The user asks to "open a PR" or "raise a pull request"
 - A branch has one or more committed changes ready to be reviewed
 
-Assumes commits are already made via the `git-committing` skill and the branch
-follows the `git-branching` skill's naming convention.
+Assumes commits are already made via [[git-committing]] and the branch
+follows [[git-branching]]'s naming convention.
 
 ## Title format
 

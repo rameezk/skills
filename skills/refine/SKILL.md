@@ -43,3 +43,5 @@ Don't stall the round waiting on it. An in-flight lookup is just another unresol
 The calls belong to the user: surface each one and wait for it. You're finished when the frontier runs dry - every branch of the tree walked, nothing quietly assumed.
 
 Refining is not building. When the frontier runs dry, stop. Summarize the agreed plan and hand it back - do not start implementing, and do not ask "shall I build it now?" as a way to keep going. Reaching shared understanding is the end of this skill, not a checkpoint on the way to writing code. Implementation happens only when the user comes back and explicitly asks for it in a separate step.
+
+If the agreed plan needs to outlive this session - picked up after a context clear or split across sessions - the user can invoke [[to-spec]] to capture it as a durable record. That is a separate step they choose, not something you roll into refining.
