@@ -133,11 +133,21 @@ link_skills_claude_code() {
   done
 }
 
+confirm_skills_pi() {
+  if [[ ${#INSTALLED_SKILLS[@]} -eq 0 ]]; then
+    echo "No installed skills for pi to discover."
+    return 0
+  fi
+
+  echo "Skills are installed in .agents/skills, which pi discovers automatically from the git root down. Nothing to link."
+}
+
 choose_harness() {
   echo
   echo "Which coding harness are you using? (number, or Enter to skip):"
   echo "  [0] None"
   echo "  [1] Claude Code"
+  echo "  [2] Pi"
 
   read -r -p "> " selection
   case "$selection" in
@@ -146,6 +156,9 @@ choose_harness() {
       ;;
     1)
       link_skills_claude_code
+      ;;
+    2)
+      confirm_skills_pi
       ;;
     *)
       echo "Skipping invalid selection: $selection"
