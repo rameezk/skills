@@ -40,4 +40,6 @@ Don't stall the round waiting on it. An in-flight lookup is just another unresol
 
 ## Completion
 
-The calls belong to the user: surface each one and wait for it. You're finished when the frontier runs dry - every branch of the tree walked, nothing quietly assumed. Don't touch the implementation until the user confirms you're aligned.
+The calls belong to the user: surface each one and wait for it. You're finished when the frontier runs dry - every branch of the tree walked, nothing quietly assumed.
+
+Refining is not building. When the frontier runs dry, stop. Summarize the agreed plan and hand it back - do not start implementing, and do not ask "shall I build it now?" as a way to keep going. Reaching shared understanding is the end of this skill, not a checkpoint on the way to writing code. Implementation happens only when the user comes back and explicitly asks for it in a separate step.
