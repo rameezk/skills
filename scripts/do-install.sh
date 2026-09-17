@@ -81,6 +81,7 @@ choose_skills() {
     done
   fi
 
+  local overwrite_all=0
   for item in "${picked[@]}"; do
     local src="$dir/$item"
     local dst="$TARGET_DIR/.agents/skills/$item"
@@ -88,11 +89,15 @@ choose_skills() {
     mkdir -p "$(dirname "$dst")"
 
     if [[ -e "$dst" || -L "$dst" ]]; then
-      read -r -p "'.agents/skills/$item' exists in target. Overwrite? [y/N] " overwrite
-      if [[ ! "$overwrite" =~ ^[Yy]$ ]]; then
-        echo "Skipped .agents/skills/$item"
-        INSTALLED_SKILLS+=("$item")
-        continue
+      if [[ "$overwrite_all" -eq 0 ]]; then
+        read -r -p "'.agents/skills/$item' exists in target. Overwrite? [y/N/a=all] " overwrite
+        if [[ "$overwrite" =~ ^[Aa]$ ]]; then
+          overwrite_all=1
+        elif [[ ! "$overwrite" =~ ^[Yy]$ ]]; then
+          echo "Skipped .agents/skills/$item"
+          INSTALLED_SKILLS+=("$item")
+          continue
+        fi
       fi
       chmod -R u+w "$dst"
       rm -rf "$dst"
@@ -115,15 +120,20 @@ link_skills_claude_code() {
 
   mkdir -p "$link_root"
 
+  local overwrite_all=0
   for item in "${INSTALLED_SKILLS[@]}"; do
     local dst="$link_root/$item"
     local target="../../.agents/skills/$item"
 
     if [[ -e "$dst" || -L "$dst" ]]; then
-      read -r -p "'.claude/skills/$item' exists in target. Overwrite? [y/N] " overwrite
-      if [[ ! "$overwrite" =~ ^[Yy]$ ]]; then
-        echo "Skipped .claude/skills/$item"
-        continue
+      if [[ "$overwrite_all" -eq 0 ]]; then
+        read -r -p "'.claude/skills/$item' exists in target. Overwrite? [y/N/a=all] " overwrite
+        if [[ "$overwrite" =~ ^[Aa]$ ]]; then
+          overwrite_all=1
+        elif [[ ! "$overwrite" =~ ^[Yy]$ ]]; then
+          echo "Skipped .claude/skills/$item"
+          continue
+        fi
       fi
       rm -rf "$dst"
     fi
