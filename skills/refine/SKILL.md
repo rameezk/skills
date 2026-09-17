@@ -38,6 +38,10 @@ Digging up facts is on you, not the user. When a question turns on something in 
 
 Don't stall the round waiting on it. An in-flight lookup is just another unresolved input, so only the questions that depend on its result wait; raise the rest of the frontier right away.
 
+## Recording decisions
+
+Refining is where decisions get made, so it is also where they get recorded - inline, the moment they settle, not deferred to some later step. When a choice settles that a future reader would otherwise have to reverse-engineer, or a term needs pinning down, hand off to [[decision-context]] right then: an ADR if the decision clears its bar (hard to reverse, surprising without context, a genuine trade-off), a `docs/CONTEXT.md` entry if a term just got sharpened. Don't batch these up to the end, and don't leave them for [[to-spec]] to maybe catch - the spec references the record, it doesn't create it.
+
 ## Completion
 
 The calls belong to the user: surface each one and wait for it. You're finished when the frontier runs dry - every branch of the tree walked, nothing quietly assumed.
