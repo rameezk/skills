@@ -12,20 +12,7 @@ By the time this runs, [[refine]] has done the deciding. Do not interview the us
 
 ## How it works
 
-1. **Read the tracker config.** Look for `.tracker.toml` at the project root. It names where specs go:
-
-   ```toml
-   type = "local"
-   ```
-
-   or, for a GitHub project:
-
-   ```toml
-   type = "github"
-   repo = "owner/name"
-   ```
-
-   If no `.tracker.toml` exists, or it is malformed, hand off to [[tracker-config]] to set it up rather than guessing a destination.
+1. **Resolve the tracker.** Read `.tracker.toml` at the project root to learn where specs go - `local` or `github`. See [[tracker-config]] for the file's shape; if it is missing or malformed, hand off to [[tracker-config]] to set it up rather than guessing a destination.
 
 2. **Explore the repo.** Ground the spec in how the code actually works, and speak in the project's vocabulary - use the terms from `docs/CONTEXT.md` and respect the ADRs in the area you're touching (see [[decision-context]]). Delegate the digging to a subagent rather than asking the user what you can check yourself.
 
@@ -34,7 +21,7 @@ By the time this runs, [[refine]] has done the deciding. Do not interview the us
 4. **Write the spec** using the scaffold in [`spec-template.md`](spec-template.md). Decisions, not implementation: no file paths and no code snippets - they go stale fast. A durable, hard-to-reverse decision belongs in an ADR via [[decision-context]]; reference it from the spec rather than restating it.
 
 5. **Publish** to the destination from the config:
-   - **local** - write to `docs/specs/NNNN-slug.md`. Number sequentially with 4-digit zero-padding: scan the directory for the highest existing number and add one, starting at `0001` if it is empty.
+   - **local** - write to `docs/specs/NNNN-slug/spec.md` - each spec in its own folder. Number the folder sequentially with 4-digit zero-padding: scan `docs/specs/` for the highest existing number and add one, starting at `0001` if it is empty.
    - **github** - publish as a single issue on `repo` via `gh`. Title the issue with the feature name and apply a `spec` label, so a fresh session can find it again with `gh issue list --label spec`. Ensure the label exists first with the idempotent `gh label create spec --force`, since a fresh repo won't have it. The issue URL is the spec's identity - GitHub assigns the number, so there is no `NNNN` to manage here.
 
 ## Completion
