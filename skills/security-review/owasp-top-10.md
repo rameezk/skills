@@ -1,6 +1,6 @@
 # OWASP Top 10 (2021) - the security baseline
 
-The fixed baseline the [security review](SKILL.md) matches every diff against, the way [[code-review]]'s Standards axis matches Fowler's smells. Work through it category by category. Each reads *what it is* then *what to look for*; on each finding, cite the OWASP category **and** the precise **CWE ID**, so the finding names both the class and the concrete weakness.
+The fixed baseline the [security review](SKILL.md) matches every diff against. Work through it category by category. Each reads *what it is* then *what to look for*; on each finding, cite the OWASP category **and** the precise **CWE ID**, so the finding names both the class and the concrete weakness.
 
 A category with no concrete, triggerable instance in the diff is not a finding. Skip anything a scanner or linter already enforces in CI - report what judgement adds.
 
