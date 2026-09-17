@@ -1,6 +1,6 @@
 ---
 name: to-tickets
-description: Break a spec into tracer-bullet tickets - narrow vertical slices, each declaring what blocks it - and publish them to the configured tracker. Use once a spec exists and the build is large enough to span several sessions.
+description: Break a spec into tracer-bullet tickets - narrow vertical slices, each declaring what blocks it - and publish them to the configured tracker. Use once a spec exists; every spec becomes at least one ticket, since agents and humans build only from tickets.
 disable-model-invocation: true
 ---
 
@@ -10,7 +10,7 @@ Break a spec into **tickets**: tracer-bullet vertical slices, each declaring the
 
 By the time this runs, [[to-spec]] has settled what gets built and why. Do not reopen decisions - slice what is already agreed. The tickets decide nothing new; they cut the settled plan into pieces small enough to build.
 
-If the whole change fits in one fresh context window, you don't need tickets. Say so and stop - the user can build straight from the spec.
+Every spec becomes at least one ticket. Agents and humans build only from tickets, never straight from a spec - so a spec that is never sliced is a spec that never gets built. If the whole change fits in one fresh context window, cut a single ticket that carries the whole spec: one frontier ticket, no blockers, `ready-for-agent` unless the spec's own call is otherwise. Don't manufacture edges to split it further - one honest unit of work is one ticket, and that is a valid breakdown, not a failure to break down.
 
 ## How it works
 

@@ -27,3 +27,5 @@ By the time this runs, [[refine]] has done the deciding. Do not interview the us
 ## Completion
 
 The spec is done when every decision in it is one the user can remember making, the out-of-scope section names the things that were deliberately refused, and the agreed seams are recorded. Stop there. This skill records the plan; it does not build it, and it does not slice it into tickets.
+
+A spec is not a build target. Agents and humans build only from tickets, so the mandatory next step is [[to-tickets]], which turns the spec into at least one ticket - even a spec small enough to fit in one session becomes a single ticket, never a thing built straight from the spec. Point the user there.
