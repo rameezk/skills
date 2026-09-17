@@ -7,7 +7,7 @@ description: Review a change along two independent axes - Standards (does it fol
 
 Review the diff between `HEAD` and a fixed point along two axes that are kept deliberately apart:
 
-- **Standards** - does the change follow this repo's documented conventions and stay clear of code smells?
+- **Standards** - does the change follow this repo's documented conventions and stay clear of code smells? This axis is also where the feature-wide cleanup [[tdd]] defers to review lands - cross-slice test consolidation included, since it needs the whole change in view.
 - **Spec** - does the change faithfully implement the ticket it came from, and the spec behind it?
 
 Each axis runs as its **own sub-agent in an isolated context**, so neither pollutes the other's judgement, and then this skill aggregates their findings without merging or re-ranking them. That separation is the whole point (see [Why two axes](#why-two-axes)): a change can pass one axis and fail the other, and a single blended verdict lets the pass hide the fail.
@@ -63,7 +63,7 @@ Launch both in a single message so they run concurrently, each isolated from the
 
 - The full diff command and commit list.
 - The standards-source files from step 3, **plus the smell baseline from step 3 pasted in full** (the sub-agent has no other access to it).
-- The brief: "Report, per file or hunk where relevant, (a) every place the diff violates a documented repo standard or an accepted ADR - cite the standard (file plus the rule) or the ADR; and (b) any baseline smell you spot - name it and quote the hunk. Distinguish hard violations from judgement calls: documented-standard and ADR breaches can be hard, but baseline smells are always judgement calls, and a documented repo standard or ADR overrides the baseline. Skip anything lint, formatter, or type-checker enforces. Under 400 words."
+- The brief: "Report, per file or hunk where relevant, (a) every place the diff violates a documented repo standard or an accepted ADR - cite the standard (file plus the rule) or the ADR; and (b) any baseline smell you spot - name it and quote the hunk. Distinguish hard violations from judgement calls: documented-standard and ADR breaches can be hard, but baseline smells are always judgement calls, and a documented repo standard or ADR overrides the baseline. You are seeing the whole change at once, which the test-driven build could not - so also own the feature-wide cleanup [[tdd]] defers to review: flag duplication that spans slices in production *and* test code (tests are code and rot the same way), and any consolidation or structural refactor that only makes sense with the full feature in view. Skip anything lint, formatter, or type-checker enforces. Under 400 words."
 
 **Spec sub-agent** - give it:
 

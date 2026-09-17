@@ -10,9 +10,13 @@ Take one ticket from the frontier and drive it all the way to an open pull reque
 
 This skill dispatches a ticket; it does not decide what to build. The deciding happened upstream in [[refine]], the recording in [[to-spec]], the slicing in [[to-tickets]]. Do not reopen any of it. If the ticket is ambiguous enough that you would have to invent a decision, stop and send the user back to [[refine]] rather than guessing here.
 
-## Pick a frontier ticket
+## Pick a frontier ticket - never a spec
 
-Work only the **frontier** - a ticket whose status is not `done` and every ticket it is blocked by *is* `done`. Take the ticket the user names; if they name one that is still blocked, say which blockers are open and stop. If they name none, resolve the tracker and surface the frontier for them to pick from - do not grab one silently.
+Work only from a **ticket**, and only one on the **frontier** - status `ready-for-agent` or `ready-for-human`, and every ticket it is blocked by is `done`. A ticket is the sole unit this skill builds from.
+
+**Never build directly off a spec.** A spec is not a build target - agents and humans build only from tickets ([[to-tickets]] is emphatic about this). If the user points you at a spec, or at a spec that has no tickets yet, stop and send them to [[to-tickets]] to slice it first; do not start building. Likewise refuse a ticket whose status is neither `ready-for-agent` nor `ready-for-human` (a `done` ticket, or one still blocked): say why and stop.
+
+Take the ticket the user names; if they name one that is still blocked, say which blockers are open and stop. If they name none, resolve the tracker and surface the frontier for them to pick from - do not grab one silently.
 
 Resolve the tracker from `.tracker.toml` at the project root (see [[tracker-config]]): `local` tickets live under `docs/specs/NNNN-slug/`, `github` tickets are issues found via `gh issue list`. If the file is missing or malformed, hand off to [[tracker-config]] rather than guessing where work is tracked.
 
