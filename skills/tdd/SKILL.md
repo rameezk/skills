@@ -15,7 +15,7 @@ A **seam** is the public boundary you test at - the interface where you observe 
 
 **Test only at pre-agreed seams.** Before writing any test, state the seams under test and confirm them with the user. No test is written at an unconfirmed seam. You cannot test everything, so agreeing the seams up front is how testing effort lands on the critical paths and complex logic instead of every edge case. Ask: "What is the public interface here, and which seams should we test?"
 
-This agreement is the precondition [[implement]] relies on when it drives this skill. If the seams were settled upstream in a spec, restate them and confirm; if nothing settled them, settle them here before the first test.
+This agreement is the precondition [[work-on]] relies on when it drives this skill. If the seams were settled upstream in a spec, restate them and confirm; if nothing settled them, settle them here before the first test.
 
 When a test needs to stand in for a dependency at a seam, see [`mocking.md`](mocking.md) - the default is don't, unless it's a system boundary.
 
