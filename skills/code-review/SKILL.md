@@ -35,25 +35,7 @@ Find what the change was *supposed* to do, in this order, resolving the tracker 
 
 Gather what documents how code should be written *in this repo*: `CODING_STANDARDS.md`, `CONTRIBUTING.md`, or the like, plus the ADRs in the area the diff touches (see [[decision-context]]) - a change that contradicts an accepted ADR is a standards breach. `docs/CONTEXT.md` is the glossary, not a standard, but the Standards axis uses it to judge whether a name matches the project's real vocabulary.
 
-On top of whatever the repo documents, the Standards axis always carries the **smell baseline** below - a fixed set of Fowler code smells (_Refactoring_, ch.3) that applies even when the repo documents nothing. Two rules bind it:
-
-- **The repo overrides.** A documented repo standard or an ADR always wins; where it endorses something the baseline would flag, suppress the smell.
-- **Always a judgement call.** Each smell is a labelled heuristic ("possible Feature Envy"), never a hard violation. And skip anything tooling already enforces - lint and formatter findings are not review findings.
-
-Each smell reads *what it is* then *how to fix*; match it against the diff:
-
-- **Mysterious Name**: a function, variable, or type whose name does not reveal what it does or holds. -> rename it; if no honest name comes, the design is murky.
-- **Duplicated Code**: the same logic shape appears in more than one hunk or file in the change. -> extract the shared shape, call it from both.
-- **Feature Envy**: a method that reaches into another object's data more than its own. -> move the method onto the data it envies.
-- **Data Clumps**: the same few fields or params keep travelling together (a type wanting to be born). -> bundle them into one type, pass that.
-- **Primitive Obsession**: a primitive or string standing in for a domain concept that deserves its own type. -> give the concept its own small type.
-- **Repeated Switches**: the same `switch`/`if`-cascade on the same type recurs across the change. -> replace with polymorphism, or one map both sites share.
-- **Shotgun Surgery**: one logical change forces scattered edits across many files in the diff. -> gather what changes together into one module.
-- **Divergent Change**: one file or module is edited for several unrelated reasons. -> split so each module changes for one reason.
-- **Speculative Generality**: abstraction, parameters, or hooks added for needs the spec does not have. -> delete it; inline back until a real need shows.
-- **Message Chains**: long `a.b().c().d()` navigation the caller should not depend on. -> hide the walk behind one method on the first object.
-- **Middle Man**: a class or function that mostly just delegates onward. -> cut it, call the real target direct.
-- **Refused Bequest**: a subclass or implementer that ignores or overrides most of what it inherits. -> drop the inheritance, use composition.
+On top of whatever the repo documents, the Standards axis always carries the **Fowler smell baseline** - a fixed set of code smells (_Refactoring_, ch.3) that applies even when the repo documents nothing, with the two rules that bind it (the repo overrides; every smell is a judgement call). The full catalogue is in [`martin-fowler-code-smells.md`](martin-fowler-code-smells.md); read it here so you can hand it to the Standards sub-agent in step 4, which has no other access to it.
 
 ### 4. Spawn both sub-agents in parallel
 
@@ -62,7 +44,7 @@ Launch both in a single message so they run concurrently, each isolated from the
 **Standards sub-agent** - give it:
 
 - The full diff command and commit list.
-- The standards-source files from step 3, **plus the smell baseline from step 3 pasted in full** (the sub-agent has no other access to it).
+- The standards-source files from step 3, **plus the Fowler baseline from [`martin-fowler-code-smells.md`](martin-fowler-code-smells.md) pasted in full** (the sub-agent has no other access to it).
 - The brief: "Report, per file or hunk where relevant, (a) every place the diff violates a documented repo standard or an accepted ADR - cite the standard (file plus the rule) or the ADR; and (b) any baseline smell you spot - name it and quote the hunk. Distinguish hard violations from judgement calls: documented-standard and ADR breaches can be hard, but baseline smells are always judgement calls, and a documented repo standard or ADR overrides the baseline. You are seeing the whole change at once, which the test-driven build could not - so also own the feature-wide cleanup [[tdd]] defers to review: flag duplication that spans slices in production *and* test code (tests are code and rot the same way), and any consolidation or structural refactor that only makes sense with the full feature in view. Skip anything lint, formatter, or type-checker enforces. Under 400 words."
 
 **Spec sub-agent** - give it:
