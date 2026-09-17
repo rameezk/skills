@@ -40,7 +40,7 @@ Run these in order. Each step is its own skill; drive them, do not reimplement t
 
 - Fix real findings by going back through a fresh [[tdd]] cycle - not a patch that skips the loop - landing each fix as its own follow-up commit.
 - For a finding you judge not worth acting on, say which and why - do not silently drop it.
-- Then hand the updated diff back to the review that raised the findings and let it check again. Re-run only the review that had findings; one that came back clean needs no second pass unless a later fix touched what it covers.
+- Then hand the updated diff back for another pass. Scope the re-review to **what the fix commits changed, not to which review raised the finding**: every review whose domain those new commits could touch runs again. A fix is new code, and new code carries new risk - so a fix made for a [[code-review]] finding still gets a fresh [[security-review]], because the change you just wrote could introduce a vulnerability the earlier clean pass never saw. A review may skip re-running only when the new commits provably cannot reach its domain (for example, a docs-only or comment-only follow-up needs no security re-review); a clean prior result is never on its own a reason to skip. When unsure, re-run it.
 
 Repeat until every review comes back clean - no actionable findings left beyond the ones you have explicitly and defensibly set aside. Keep the loop honest: if a reviewer keeps flagging the same thing and you keep declining it, stop and surface the disagreement to the user rather than spinning.
 
