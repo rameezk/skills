@@ -18,7 +18,7 @@ By the time this runs, [[refine]] has done the deciding. Do not interview the us
 
 3. **Sketch the seams, then confirm.** A **seam** is a place where you can alter behaviour without editing in that place (Michael Feathers, *Working Effectively with Legacy Code*) - the boundary a test plugs into. Propose the seams the feature will be tested at: prefer seams that already exist, take the highest seam you can, and aim for the fewest possible - ideally one across the whole change. Put the proposed seams to the user and hold for sign-off before writing a word.
 
-4. **Write the spec** using the scaffold in [`spec-template.md`](spec-template.md). Decisions, not implementation: no file paths and no code snippets - they go stale fast. A durable, hard-to-reverse decision belongs in an ADR via [[decision-context]]; reference it from the spec rather than restating it.
+4. **Write the spec** using the scaffold in [`spec-template.md`](spec-template.md). Decisions, not implementation: no file paths and no code snippets - they go stale fast. A durable, hard-to-reverse decision belongs in an ADR via [[decision-context]]; reference it from the spec rather than restating it. NEVER add agent attribution, a generated-by credit, or a session link to the spec's title or body.
 
 5. **Publish** to the destination from the config:
    - **local** - write to `docs/specs/NNNN-slug/spec.md` - each spec in its own folder. Number the folder sequentially with 4-digit zero-padding: scan `docs/specs/` for the highest existing number and add one, starting at `0001` if it is empty.

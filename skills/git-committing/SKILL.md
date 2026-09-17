@@ -44,8 +44,8 @@ Rules:
   switch to (or create) a feature branch following `<type>/<short-description>`
   before committing - [[git-branching]] covers the full convention and
   how to branch off an up-to-date default.
-- NEVER add an agent/Claude co-author trailer, attribution, or session
-  information to the message.
+- NEVER add an agent co-author trailer, attribution, generated-by credit, or
+  session link to the message.
 - NEVER manually edit `CHANGELOG.md` or other auto-generated files as part of a
   commit.
 - If a pre-commit hook fails, fix the underlying issue. Never bypass it with

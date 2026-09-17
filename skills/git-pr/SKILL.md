@@ -65,7 +65,8 @@ Anything else: follow-ups, trade-offs, risks, screenshots. Link issues with `Clo
 
 ## Guardrails
 
-- NEVER add an agent/Claude co-author trailer or attribution to the PR body, including any session information.
+- NEVER add an agent co-author trailer, attribution, generated-by credit, or
+  session link to the PR title or body.
 - Base the PR on the default branch unless the user names a different base.
 - Assumes `gh` is authenticated. If `gh auth status` fails, stop and ask the
   user to run `gh auth login`.

@@ -7,3 +7,5 @@ Publish one issue per ticket via `gh` on the configured `repo`.
 - **Blocking edges** - GitHub's native **issue dependencies**: `gh issue create --blocked-by <#,#>`. This relationship *is* the blocked marker - GitHub shows the issue as blocked and clears it automatically when the blocker closes, so nothing hand-maintains it. Because blockers are published first, their numbers exist by the time a later ticket needs them. Fall back to a "Blocked by" line in the body only if the tracker has no native edge.
 
 Do not close or modify the parent spec issue.
+
+NEVER add agent attribution, a generated-by credit, or a session link to any issue title, body, or comment you create here.
