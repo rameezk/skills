@@ -5,7 +5,7 @@ description: Review a change along two independent axes - Standards (does it fol
 
 # Code Review
 
-Review the diff between `HEAD` and a fixed point along two axes that are kept deliberately apart:
+Review the diff between a head commit and a fixed point along two axes that are kept deliberately apart:
 
 - **Standards** - does the change follow this repo's documented conventions and stay clear of code smells? This axis is also where the feature-wide cleanup [[tdd]] defers to review lands - cross-slice test consolidation included, since it needs the whole change in view.
 - **Spec** - does the change faithfully implement the ticket it came from, and the spec behind it?
@@ -20,7 +20,9 @@ This is a read-only pass. It reports; it does not touch code. Fixing what it fin
 
 The fixed point is whatever the user gives - a commit SHA, a branch, a tag, `main`, `HEAD~5`. If they name none, default to the branch's base - the pending change on the current branch - and ask only when that is ambiguous (detached HEAD, or already sitting on the default branch with nothing to compare). Never silently assume `main`.
 
-Capture the diff once, three-dot so the comparison is against the merge-base: `git diff <fixed-point>...HEAD`. Note the commits too: `git log <fixed-point>..HEAD --oneline`. Before spawning anything, confirm the ref resolves (`git rev-parse <fixed-point>`) and the diff is non-empty - a bad ref or empty diff should fail here, in the open, not inside two sub-agents.
+The head is the commit SHA the caller passes, or `HEAD` if they pass none. Resolve both to SHAs once (`git rev-parse <fixed-point>`, `git rev-parse <head>`) and use those SHAs everywhere below, never the moving `HEAD`, so the review covers exactly one commit range and says which.
+
+Capture the diff once, three-dot so the comparison is against the merge-base: `git diff <fixed-point>...<head>`. Note the commits too: `git log <fixed-point>..<head> --oneline`. Before spawning anything, confirm both refs resolve and the diff is non-empty - a bad ref or empty diff should fail here, in the open, not inside two sub-agents.
 
 ### 2. Find the spec source
 
@@ -61,6 +63,8 @@ If there is no spec, skip the Spec axis and say so in the report.
 
 ### 5. Aggregate
 
+Open the report with the reviewed range on its own first line: `Reviewed <fixed-point-sha>...<head-sha>`, both as resolved in step 1. A caller uses it to tell which commit the review covers.
+
 Present the two reports under `## Standards` and `## Spec` headings, verbatim or lightly cleaned. Do **not** merge or re-rank findings across axes - the separation is the point.
 
 End with a one-line summary: total findings per axis, and the worst issue *within each axis* (if any). Do not pick a single winner across axes; that is the re-ranking the separation exists to prevent.
@@ -76,4 +80,4 @@ Reporting them separately stops one axis from masking the other.
 
 ## Completion
 
-Done when both axes have reported (or the Spec axis has been recorded as skipped for want of a spec) and the findings are laid out side by side under their own headings, unmerged and un-re-ranked, with the per-axis summary line. Then stop: this skill finds; it does not fix - hand fixes to [[tdd]].
+Done when the report opens with the reviewed range, both axes have reported (or the Spec axis has been recorded as skipped for want of a spec) and the findings are laid out side by side under their own headings, unmerged and un-re-ranked, with the per-axis summary line. Then stop: this skill finds; it does not fix - hand fixes to [[tdd]].
