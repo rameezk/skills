@@ -36,7 +36,7 @@ Run these in order. Each step is its own skill; drive them, do not reimplement t
 
 5. **Commit the reviewable checkpoint.** With the suite green and the checks clean, record the work with [[git-committing]] - focused commits, Conventional Commits, on the worktree's branch. Do not push. Committing first is what gives the reviews a diff to run against: an immutable ref measured against the branch base, not a mutating working tree.
 
-6. **Review - on the committed diff.** Put the finished change through two independent reviews, run in **separate sub-agents launched in one message** so they go concurrently in isolated contexts, each with fresh eyes on code this session is biased toward: [[code-review]] for standards and spec conformance, and [[security-review]] for vulnerabilities. Each runs as a single sub-agent reporting back here; [[code-review]] folds its own Standards and Spec axes into inline passes rather than spawning them further, since it is nested (its step 4 covers this). Run both against the **branch base** - the worktree branch measured against the up-to-date default it was branched from - and pass that base to each sub-agent as the explicit fixed point, so neither has to ask. Both are strictly read-only. Collect both reports, then triage as the orchestrator - and treat this as a **loop, not a single pass**, the way a human change goes back to its reviewers until they sign off:
+6. **Review - on the committed diff.** Put the finished change through two independent reviews, run in **separate sub-agents launched in one message** so they go concurrently in isolated contexts, each with fresh eyes on code this session is biased toward: [[code-review]] for standards and spec conformance, and [[security-review]] for vulnerabilities. Each runs as a single sub-agent reporting back here; [[code-review]] folds its own Standards and Spec axes into inline passes rather than spawning them further, since it is nested (its step 4 covers this). Run both against the **branch base** - the worktree branch measured against the up-to-date default it was branched from - and pass that base to each sub-agent as the explicit fixed point, so neither has to ask. Pin the other end too: pass the head as the exact commit SHA (`git rev-parse HEAD` at launch), never a bare `HEAD`. Each review states the range it covered on its first line; record that SHA against the review's result, because step 7 checks it. Both are strictly read-only. Collect both reports, then triage as the orchestrator - and treat this as a **loop, not a single pass**, the way a human change goes back to its reviewers until they sign off:
 
 - Fix real findings by going back through a fresh [[tdd]] cycle - not a patch that skips the loop - landing each fix as its own follow-up commit.
 - For a finding you judge not worth acting on, say which and why - do not silently drop it.
@@ -44,7 +44,17 @@ Run these in order. Each step is its own skill; drive them, do not reimplement t
 
 Repeat until every review comes back clean - no actionable findings left beyond the ones you have explicitly and defensibly set aside. Keep the loop honest: if a reviewer keeps flagging the same thing and you keep declining it, stop and surface the disagreement to the user rather than spinning.
 
-7. **Open the PR.** Raise the pull request with [[git-pr]]. Link it to the originating ticket so merging it closes the ticket: on `github`, reference the issue with `Closes #N` in the description. Ground the description in the ticket - what it delivered and how it was verified.
+7. **Open the PR - only once every review covers the head.** Before opening it, run `git rev-parse HEAD` and check each review in turn. A review covers the head when its last clean pass was at exactly that SHA, or when every commit after that pass provably cannot reach the review's domain, by the same test step 6 uses, and you can name each such commit and why. If any review does not cover the head, go back to step 6 - do not open the PR. This is the check that catches a fix commit landing after the last review: a fix is new code, and an unreviewed fix is an unreviewed change.
+
+   Raise the pull request with [[git-pr]]. Link it to the originating ticket so merging it closes the ticket: on `github`, reference the issue with `Closes #N` in the description. Ground the description in the ticket - what it delivered and how it was verified. Add a `## Reviews` section listing each review's last clean SHA, so the reader can see at a glance that the reviews cover the PR's head:
+
+   ```markdown
+   ## Reviews
+   - code-review: clean at a1b2c3d (HEAD)
+   - security-review: clean at 9f8e7d6. After it: a1b2c3d (README wording only, cannot reach security)
+   ```
+
+   Write only what happened. A SHA here is a claim about which commit a review saw; never write one a review did not report.
 
 ## What this skill does not do
 
@@ -53,4 +63,4 @@ Repeat until every review comes back clean - no actionable findings left beyond 
 
 ## Completion
 
-Done when the ticket's behaviour is built and committed in its own worktree branch, the repo's format/lint/type checks are clean, both reviews have run on that committed diff and been driven to sign-off through the review-fix-re-review loop - review fixes landed as follow-up commits, and nothing actionable is left beyond findings explicitly set aside with reasons - the full suite is green on a real run, and the PR is open and linked to the ticket. Report the worktree path, the branch, the final test run, the check results, how the review findings were handled, and the PR URL. Then stop: the ticket is not yours to close, and the next ticket is not yours to start.
+Done when the ticket's behaviour is built and committed in its own worktree branch, the repo's format/lint/type checks are clean, both reviews have run on that committed diff and been driven to sign-off through the review-fix-re-review loop, each covering the PR's head as step 7 checks - review fixes landed as follow-up commits, and nothing actionable is left beyond findings explicitly set aside with reasons - the full suite is green on a real run, and the PR is open and linked to the ticket. Report the worktree path, the branch, the final test run, the check results, how the review findings were handled with each review's last clean SHA, and the PR URL. Then stop: the ticket is not yours to close, and the next ticket is not yours to start.
