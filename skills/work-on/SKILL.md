@@ -24,7 +24,7 @@ Resolve the tracker from `.tracker.toml` at the project root (see [[tracker-conf
 
 Run these in order. Each step is its own skill; drive them, do not reimplement them.
 
-1. **Read the ticket - and its parent spec.** Read the whole ticket: what it delivers, its blocking edges, whether it is `ready-for-agent` or `ready-for-human`. Then read its parent spec for the two things the ticket leans on but does not repeat: the **agreed seams** and the **out-of-scope** section. Building something the spec explicitly refused is a defect, not initiative. Ground yourself in how the code actually works and speak its language - read `docs/CONTEXT.md` for vocabulary and respect the ADRs in the area you are touching (see [[decision-context]]).
+1. **Read the ticket - and its parent spec.** Read the whole ticket: what it delivers, its blocking edges, whether it is `ready-for-agent` or `ready-for-human`. Then read its parent spec for the two things the ticket leans on but does not repeat: the **agreed seams** and the **out-of-scope** section. Building something the spec explicitly refused is a defect, not initiative. Ground yourself in how the code actually works and speak its language - read `docs/CONTEXT.md` for vocabulary and respect the ADRs in the area you are touching (see [[decision-context]]). ADRs are read-only here: build to them, never edit them. If the ticket cannot be built without contradicting an accepted ADR, or the build reveals that one is wrong, that is a new decision - stop and send the user back to [[refine]] rather than touching the ADR.
 
    If the ticket is `ready-for-human`, it reached the frontier because it turns on a call an agent should not make alone, a manual or external step, or a change too risky to hand off. Do not build it unattended - surface why it is human-flagged and confirm with the user before going further.
 
@@ -59,6 +59,7 @@ Repeat until every review comes back clean - no actionable findings left beyond 
 ## What this skill does not do
 
 - **It does not mark the ticket done.** The ticket closes when its PR is *merged*, not when the PR is opened - on `github` the `Closes #N` link does this automatically on merge. Do not flip ticket status here.
+- **It does not change ADRs.** Not their body, not their status. Superseding or deprecating a decision is a decision, and decisions are made in [[refine]].
 - **It does not work more than one ticket.** If finishing this ticket clears blockers and opens new frontier tickets, that is the next dispatch - a fresh session, a fresh run of this skill - not more work piled onto this one.
 
 ## Completion
