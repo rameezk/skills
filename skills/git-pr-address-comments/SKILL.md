@@ -204,9 +204,10 @@ The author - human or bot - does not change the triage.
 
 For the actionable items, follow [[work-on]]'s recipe, driving the sibling
 skills rather than reimplementing them. Work one item's concern at a time.
-Each `[[name]]` here is another skill: when a step hands work to one, load that
-skill and follow its instructions in full before doing the step. Never do the
-step from the summary here.
+Each `[[name]]` here is another skill, whose file is `../<name>/SKILL.md`
+beside this skill's own: when a step hands work to one, load that skill by
+reading that file and follow its instructions in full before doing the step.
+Never do the step from the summary here.
 
 1. **Fix it test-first, when there is behaviour to test.** A change with a
    testable seam goes through a fresh [[tdd]] cycle - not a patch that skips the
