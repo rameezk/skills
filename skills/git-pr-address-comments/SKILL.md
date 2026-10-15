@@ -56,13 +56,25 @@ gh repo view --json owner,name -q '.owner.login + " " + .name'
 Assumes `gh` is authenticated. If `gh auth status` fails, stop and ask the user
 to run `gh auth login`.
 
-Check out the PR's branch so fixes land on the right ref, if not already on it:
+## Work in the PR branch's worktree
+
+Do the work in a worktree on the PR's existing branch, set up with
+[[git-worktree]], so the user's current checkout is never touched. A fresh clone
+an orchestrator started you in, already on the PR's branch, counts as that
+worktree.
+
+Before changing anything, check the worktree is clean (`git status --short`) and
+bring it up to date with the pushed branch, which a reviewer or CI may have
+added to:
 
 ```bash
-gh pr checkout <number>
+git fetch origin <headRefName>
+git merge --ff-only origin/<headRefName>
 ```
 
-No worktree ceremony - the branch already exists; just be on it.
+If it has uncommitted changes, or local commits that diverge from the pushed
+branch, stop and report it rather than stashing, resetting or merging over
+someone's work.
 
 ## Fetch the open feedback
 
@@ -204,9 +216,10 @@ The author - human or bot - does not change the triage.
 
 For the actionable items, follow [[work-on]]'s recipe, driving the sibling
 skills rather than reimplementing them. Work one item's concern at a time.
-Each `[[name]]` here is another skill: when a step hands work to one, load that
-skill and follow its instructions in full before doing the step. Never do the
-step from the summary here.
+Each `[[name]]` here is another skill, whose file is `../<name>/SKILL.md`
+beside this skill's own: when a step hands work to one, load that skill by
+reading that file and follow its instructions in full before doing the step.
+Never do the step from the summary here.
 
 1. **Fix it test-first, when there is behaviour to test.** A change with a
    testable seam goes through a fresh [[tdd]] cycle - not a patch that skips the
