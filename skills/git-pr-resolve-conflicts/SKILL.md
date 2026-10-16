@@ -1,6 +1,6 @@
 ---
 name: git-pr-resolve-conflicts
-description: Resolve a GitHub PR's merge conflicts with its base end-to-end - merge the base into the PR's branch, resolve each conflict keeping both sides' intent, review what the resolution changed, push, and see the required checks go green. Never rebases or force-pushes. Use when the user asks to "resolve the conflicts" / "fix the merge conflicts" / "update the PR with main" on a pull request that conflicts with its base.
+description: Resolve a GitHub PR's merge conflicts with its base end-to-end - merge the base into the PR's branch, resolve each conflict keeping both sides' intent, review what the resolution changed, push, see the required checks go green, and refresh the PR's before/after screenshots. Never rebases or force-pushes. Use when the user asks to "resolve the conflicts" / "fix the merge conflicts" / "update the PR with main" on a pull request that conflicts with its base.
 disable-model-invocation: true
 ---
 
@@ -205,6 +205,21 @@ to *Review what the resolution changed*, then push and wait for the checks
 again. Change only that section; the rest of the description is the author's.
 If the PR has no `## Reviews` section, do not add one.
 
+## Bring the PR's `## Before / After` section up to date
+
+The merge moved both sides of the PR's screenshots: the base is newer, and the
+resolution may have changed how the PR's own UI change looks. Once the checks
+are green, run [[before-after]] on the open PR - its usual before ref, the PR's
+base, and the pushed head as after - by reading `../before-after/SKILL.md` and
+the [`screenshots.md`](../before-after/screenshots.md) beside it and following
+them in full, never a capture of your own. Its rules bind every image it
+publishes, above all its no-sensitive-data rule and its review of every image
+before publishing. It replaces the section, adds one when the merge made the
+PR's change visible, and removes a stale one when nothing visual remains; when
+the PR changes nothing a user sees, its escape hatch leaves everything as it
+is. Being unable to capture a visual change is a blocker to report, never a
+reason to leave stale screenshots in place.
+
 The skill stops here. It posts no comment - the merge commit is the record. It
 does not merge the PR, does not change whether it is a draft, and does not
 change any ticket's status.
@@ -228,7 +243,9 @@ into the PR's branch with every conflict resolved to keep both sides' intent,
 the repo's checks are clean, the reviews that ran came back signed off, the
 merge and any follow-ups are pushed without a force-push, the PR no longer
 conflicts with what was merged, its required checks are green on the pushed
-head, and any `## Reviews` section covers that head. Report the PR URL, the
+head, any `## Reviews` section covers that head, and any `## Before / After`
+section shows that head against its base. Report the PR URL, the
 commit merged, each conflicted file and how it was resolved, the merge commit
 and any follow-up SHAs, the test and check results, how the review findings
-were handled, and the required checks' final state.
+were handled, the required checks' final state, and the before/after assets
+commit SHA when the section was refreshed.
