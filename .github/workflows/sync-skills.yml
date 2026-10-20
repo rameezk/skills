@@ -1,0 +1,84 @@
+name: Sync skills
+
+on:
+  workflow_call:
+    inputs:
+      ref:
+        description: Branch, tag, or commit of the skills repo to sync to.
+        type: string
+        default: main
+    secrets:
+      SKILLS_SYNC_TOKEN:
+        description: Token used to push the sync branch and open the pull request. Without it the default GITHUB_TOKEN is used, and the pull request will not trigger other workflows.
+        required: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          token: ${{ secrets.SKILLS_SYNC_TOKEN || github.token }}
+
+      - name: Fetch skills
+        id: source
+        env:
+          REF: ${{ inputs.ref }}
+        run: |
+          if [[ ! -f .agents/skills.lock ]]; then
+            echo "::error::.agents/skills.lock not found. Install skills with the interactive installer first."
+            exit 1
+          fi
+          source_url="$(awk '$1 == "source" { print $2 }' .agents/skills.lock)"
+          git clone --quiet --filter=blob:none "$source_url" "$RUNNER_TEMP/skills"
+          git -C "$RUNNER_TEMP/skills" checkout --quiet "$REF"
+          {
+            echo "url=${source_url%.git}"
+            echo "old-rev=$(awk '$1 == "rev" { print $2 }' .agents/skills.lock)"
+            echo "new-rev=$(git -C "$RUNNER_TEMP/skills" rev-parse HEAD)"
+            echo "short-rev=$(git -C "$RUNNER_TEMP/skills" rev-parse --short HEAD)"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Sync skills
+        run: '"$RUNNER_TEMP/skills/scripts/do-install.sh" --sync'
+
+      - name: Describe changes
+        env:
+          URL: ${{ steps.source.outputs.url }}
+          OLD_REV: ${{ steps.source.outputs.old-rev }}
+          NEW_REV: ${{ steps.source.outputs.new-rev }}
+          BODY: ${{ runner.temp }}/sync-skills-body.md
+        run: |
+          if [[ -z "$(git status --porcelain -- . ':!.agents/skills.lock')" ]]; then
+            git checkout -- .agents/skills.lock
+            echo "Installed skills are up to date."
+            : > "$BODY"
+            exit 0
+          fi
+
+          mapfile -t paths < <(git show HEAD:.agents/skills.lock | awk '$1 == "skill" { print "skills/" $2 }')
+          {
+            echo "Syncs the vendored skills to [\`${NEW_REV:0:7}\`]($URL/commit/$NEW_REV)."
+            echo
+            echo "## Changes"
+            echo
+            if git -C "$RUNNER_TEMP/skills" cat-file -e "$OLD_REV^{commit}" 2>/dev/null; then
+              git -C "$RUNNER_TEMP/skills" log --format="- [%h]($URL/commit/%H) %s" "$OLD_REV..$NEW_REV" -- "${paths[@]}"
+              echo
+              echo "Full diff: $URL/compare/$OLD_REV...$NEW_REV"
+            else
+              echo "The previous revision \`$OLD_REV\` is not in the skills repo, so the changes since then are unknown."
+            fi
+          } > "$BODY"
+
+      - uses: peter-evans/create-pull-request@v8
+        with:
+          token: ${{ secrets.SKILLS_SYNC_TOKEN || github.token }}
+          branch: chore/sync-skills
+          delete-branch: true
+          commit-message: "chore: sync skills to ${{ steps.source.outputs.short-rev }}"
+          title: "chore: sync skills"
+          body-path: ${{ runner.temp }}/sync-skills-body.md
