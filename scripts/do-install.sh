@@ -302,6 +302,7 @@ jobs:
       ref: ${{ inputs.ref || 'main' }}
 EOF
   echo "Wrote .github/workflows/sync-skills.yml"
+  echo "Enable Settings > Actions > General > Allow GitHub Actions to create and approve pull requests in this repo so the workflow can open pull requests."
 }
 
 sync_skills() {

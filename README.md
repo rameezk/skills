@@ -2,8 +2,6 @@
 
 ## Install
 
-Run the installer from the root of the repo that should get the skills.
-
 ### Nix
 
 ```bash
@@ -16,11 +14,9 @@ nix run github:rameezk/skills#install
 curl -fsSL https://raw.githubusercontent.com/rameezk/skills/main/install.sh | bash
 ```
 
-The installer copies the chosen skills into `.agents/skills`, links them for your harness, and records what it installed and from which commit in `.agents/skills.lock`. Commit all of it.
-
 ## Keeping skills up to date
 
-The installer offers to add `.github/workflows/sync-skills.yml` to the consuming repo. Every Monday it re-copies the skills listed in `.agents/skills.lock` from `main` and opens a `chore: sync skills` pull request when any of them changed. The pull request lists the commits that touched those skills. Skills deleted here are removed from the consuming repo in the same pull request.
+The installer offers to add `.github/workflows/sync-skills.yml` to the consuming repo. This runs a scheduled check for any skill updates.
 
 To update right away, run the workflow from the consuming repo's Actions tab, or with:
 
@@ -36,7 +32,6 @@ nix run github:rameezk/skills#install -- --sync
 curl -fsSL https://raw.githubusercontent.com/rameezk/skills/main/install.sh | bash -s -- --sync
 ```
 
-### Repo settings
+The workflow can only open pull requests once **Settings > Actions > General > Allow GitHub Actions to create and approve pull requests** is enabled in the consuming repo.
 
-- Enable **Settings > Actions > General > Allow GitHub Actions to create and approve pull requests**.
-- Sync pull requests are opened with the default `GITHUB_TOKEN`, which does not trigger other workflows, so CI does not run on them automatically. Close and reopen a sync pull request to run CI on it.
+Turning that on lets any workflow in the repo open and approve pull requests with its default token. To limit that, also set **Settings > Actions > General > Workflow permissions** to **Read repository contents and packages permissions**. The sync workflow asks for the write access it needs, so it keeps working, while other workflows only get write access if they ask for it too.
