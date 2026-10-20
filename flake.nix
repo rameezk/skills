@@ -38,6 +38,7 @@
               pkgs.gnugrep
             ];
             text = ''
+              export SKILLS_REV="${self.rev or self.dirtyRev or "unknown"}"
               exec "${self}/scripts/do-install.sh" "$@"
             '';
           };
