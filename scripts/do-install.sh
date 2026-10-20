@@ -300,7 +300,6 @@ jobs:
     uses: rameezk/skills/.github/workflows/sync-skills.yml@main
     with:
       ref: ${{ inputs.ref || 'main' }}
-    secrets: inherit
 EOF
   echo "Wrote .github/workflows/sync-skills.yml"
 }

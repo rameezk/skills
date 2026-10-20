@@ -39,4 +39,4 @@ curl -fsSL https://raw.githubusercontent.com/rameezk/skills/main/install.sh | ba
 ### Repo settings
 
 - Enable **Settings > Actions > General > Allow GitHub Actions to create and approve pull requests**.
-- Pull requests opened with the default `GITHUB_TOKEN` do not trigger other workflows, so CI will not run on them. To get CI, add a `SKILLS_SYNC_TOKEN` secret holding a fine-grained token with contents and pull request write access to the repo.
+- Sync pull requests are opened with the default `GITHUB_TOKEN`, which does not trigger other workflows, so CI does not run on them automatically. Close and reopen a sync pull request to run CI on it.

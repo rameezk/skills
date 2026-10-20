@@ -7,10 +7,6 @@ on:
         description: Branch, tag, or commit of the skills repo to sync to.
         type: string
         default: main
-    secrets:
-      SKILLS_SYNC_TOKEN:
-        description: Token used to push the sync branch and open the pull request. Without it the default GITHUB_TOKEN is used, and the pull request will not trigger other workflows.
-        required: false
 
 jobs:
   sync:
@@ -20,8 +16,6 @@ jobs:
       pull-requests: write
     steps:
       - uses: actions/checkout@v7
-        with:
-          token: ${{ secrets.SKILLS_SYNC_TOKEN || github.token }}
 
       - name: Fetch skills
         id: source
@@ -76,7 +70,6 @@ jobs:
 
       - uses: peter-evans/create-pull-request@v8
         with:
-          token: ${{ secrets.SKILLS_SYNC_TOKEN || github.token }}
           branch: chore/sync-skills
           delete-branch: true
           commit-message: "chore: sync skills to ${{ steps.source.outputs.short-rev }}"
