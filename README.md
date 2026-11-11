@@ -32,15 +32,23 @@ nix run github:rameezk/skills#install -- --sync
 curl -fsSL https://raw.githubusercontent.com/rameezk/skills/main/install.sh | bash -s -- --sync
 ```
 
-### The skills-sync GitHub App
+The workflow opens its pull request in one of two ways, depending on how the consuming repo is set up.
 
-The workflow opens its pull requests as a GitHub App, not with the repo's default token. The repo can then keep **Settings > Actions > General > Allow GitHub Actions to create and approve pull requests** turned off, so no workflow can approve its own pull request, and the sync pull requests trigger CI like any other.
+### With the default token
 
-The App is created once per account. It needs only **Contents: Read and write** and **Pull requests: Read and write**, no webhook, and is installable only on the account that owns it. Keep its client ID and private key somewhere you can copy them from, such as a password manager.
+Enable **Settings > Actions > General > Allow GitHub Actions to create and approve pull requests**. Nothing else is needed. The sync pull requests are authored by `github-actions[bot]` and do not trigger CI.
 
-### Onboarding a repo
+Turning that setting on lets any workflow in the repo open and approve pull requests with its default token. To limit that, also set **Settings > Actions > General > Workflow permissions** to **Read repository contents and packages permissions**. The sync workflow asks for the write access it needs, so it keeps working.
 
-For each repo that should sync its skills:
+### With a skills-sync GitHub App
+
+When the repo has a `skills-sync` environment holding the App's secrets, the workflow opens its pull requests as that App instead. The repo can then keep **Allow GitHub Actions to create and approve pull requests** turned off, so no workflow can approve its own pull request, and the sync pull requests trigger CI like any other. A repo without the App's secrets falls back to the default token. The first run creates an empty `skills-sync` environment in such a repo, which does no harm.
+
+Each account that uses the App path creates its own App, once. It needs only **Contents: Read and write** and **Pull requests: Read and write**, no webhook, and is installable only on the account that owns it. Keep its client ID and private key somewhere you can copy them from, such as a password manager.
+
+### Onboarding a repo to the App
+
+For each repo that should sync its skills as the App:
 
 1. Install the skills with the installer and accept the offer to add `.github/workflows/sync-skills.yml`.
 2. Add the repo to the App's installation: **Settings > Applications > Installed GitHub Apps > the App > Configure > Repository access**.

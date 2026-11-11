@@ -292,7 +292,8 @@ on:
         default: main
 
 permissions:
-  contents: read
+  contents: write
+  pull-requests: write
 
 jobs:
   sync:
@@ -301,7 +302,7 @@ jobs:
       ref: ${{ inputs.ref || 'main' }}
 EOF
   echo "Wrote .github/workflows/sync-skills.yml"
-  echo "Onboard this repo to the skills-sync GitHub App so the workflow can open pull requests: https://github.com/rameezk/skills#onboarding-a-repo"
+  echo "To let the workflow open pull requests, see https://github.com/rameezk/skills#keeping-skills-up-to-date"
 }
 
 sync_skills() {
