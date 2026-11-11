@@ -11,11 +11,20 @@ on:
 jobs:
   sync:
     runs-on: ubuntu-latest
+    environment: skills-sync
     permissions:
-      contents: write
-      pull-requests: write
+      contents: read
     steps:
       - uses: actions/checkout@v7
+
+      - name: Mint the skills-sync App token
+        id: app-token
+        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510
+        with:
+          client-id: ${{ secrets.SKILLS_SYNC_CLIENT_ID }}
+          private-key: ${{ secrets.SKILLS_SYNC_PRIVATE_KEY }}
+          permission-contents: write
+          permission-pull-requests: write
 
       - name: Fetch skills
         id: source
@@ -70,6 +79,7 @@ jobs:
 
       - uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1
         with:
+          token: ${{ steps.app-token.outputs.token }}
           branch: chore/sync-skills
           delete-branch: true
           commit-message: "chore: sync skills to ${{ steps.source.outputs.short-rev }}"
