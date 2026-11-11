@@ -7,6 +7,13 @@ on:
         description: Branch, tag, or commit of the skills repo to sync to.
         type: string
         default: main
+    secrets:
+      SKILLS_SYNC_CLIENT_ID:
+        description: The skills-sync GitHub App's client ID. Without it, the pull request is opened with the default token.
+        required: false
+      SKILLS_SYNC_PRIVATE_KEY:
+        description: The skills-sync GitHub App's private key.
+        required: false
 
 jobs:
   sync:

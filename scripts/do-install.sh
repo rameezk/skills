@@ -300,6 +300,9 @@ jobs:
     uses: rameezk/skills/.github/workflows/sync-skills.yml@main
     with:
       ref: ${{ inputs.ref || 'main' }}
+    secrets:
+      SKILLS_SYNC_CLIENT_ID: ${{ secrets.SKILLS_SYNC_CLIENT_ID }}
+      SKILLS_SYNC_PRIVATE_KEY: ${{ secrets.SKILLS_SYNC_PRIVATE_KEY }}
 EOF
   echo "Wrote .github/workflows/sync-skills.yml"
   echo "To let the workflow open pull requests, see https://github.com/rameezk/skills#keeping-skills-up-to-date"
