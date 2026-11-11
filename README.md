@@ -50,7 +50,19 @@ Each account that uses the App path creates its own App, once. It needs only **C
 
 For each repo that should sync its skills as the App:
 
-1. Install the skills with the installer and accept the offer to add `.github/workflows/sync-skills.yml`.
+1. Install the skills with the installer and accept the offer to add `.github/workflows/sync-skills.yml`. A reusable workflow only sees the secrets its caller passes, so check that the `sync` job passes both App secrets by name, and add them if the file predates this:
+
+   ```yaml
+   jobs:
+     sync:
+       uses: rameezk/skills/.github/workflows/sync-skills.yml@main
+       with:
+         ref: ${{ inputs.ref || 'main' }}
+       secrets:
+         SKILLS_SYNC_CLIENT_ID: ${{ secrets.SKILLS_SYNC_CLIENT_ID }}
+         SKILLS_SYNC_PRIVATE_KEY: ${{ secrets.SKILLS_SYNC_PRIVATE_KEY }}
+   ```
+
 2. Add the repo to the App's installation: **Settings > Applications > Installed GitHub Apps > the App > Configure > Repository access**.
 3. Create an environment named `skills-sync` in **Settings > Environments**, and under **Deployment branches and tags** allow only the default branch.
 4. Add two environment secrets to `skills-sync`:
