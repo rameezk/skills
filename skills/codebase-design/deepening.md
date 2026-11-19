@@ -16,7 +16,7 @@ Something outside the process that has a faithful local stand-in a test can run 
 
 ### 3. Remote, but yours
 
-Code you own that sits across a network or a process gap: another of your own programs, a worker reached over a queue, an internal endpoint. The logic belongs in one deep module on this side, with the transport behind a seam at that module's edge. Two adapters fill the seam - the real transport in production and an in-memory one in tests - which is exactly what makes it a real seam rather than a hypothetical one.
+Code you own that sits across a network or a process gap: another of your own programs, a worker reached over a queue, an internal endpoint. The logic belongs in one deep module on this side, with the transport behind a seam at that module's edge. Two adapters fill the seam - the real transport for live use, and one that keeps everything in memory for tests - which is exactly what makes it a real seam rather than a hypothetical one.
 
 ### 4. Third-party
 

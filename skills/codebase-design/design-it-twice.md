@@ -11,7 +11,7 @@ Before any alternative is drawn up, write the problem down for the user:
 - each dependency and its kind, from [`deepening.md`](deepening.md)
 - where it helps, a handful of lines showing how a caller works today, so the constraints have something concrete to point at
 
-Post this to the user, then start step 2 without waiting for a reply.
+Post the write-up for the user, then start step 2 without waiting for a reply.
 
 ## 2. Draw up the alternatives apart
 
