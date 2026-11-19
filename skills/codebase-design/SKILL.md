@@ -16,11 +16,11 @@ Whenever one of these ideas comes up, say its term and never a looser stand-in f
 - **Module** - the unit this vocabulary describes, at any scale. A single function counts, and so does a whole package or a feature that runs through several layers, as long as callers reach it through an interface.
 - **Interface** - the full contract a caller depends on. Names and types are part of it, and so are the preconditions, the side effects, the ways it can fail and any set-up it needs.
 - **Implementation** - the code behind the interface: what a caller never needs to know.
-- **Depth** - how much behaviour a module delivers for each thing a caller must learn about its interface. A **deep** module hides a lot behind a little. A **shallow** module's interface is about as large as the work it does, so calling it is hardly easier than doing that work yourself. Depth is judged from the caller's side: an implementation split into many small pieces is still deep if callers see none of them.
+- **Depth** - how much a module does for its callers, set against how much they must understand to use it. A **deep** module hides a lot behind a little. With a **shallow** one, learning to call it costs nearly as much as writing its body yourself. Depth is judged from the caller's side: an implementation split into many small pieces is still deep if callers see none of them.
 - **Seam** - a point in the code where a different piece of behaviour can be substituted while callers carry on unchanged. A module's interface defines one. Deciding where seams belong is one design question; deciding what fills them is another.
-- **Adapter** - code that fills a seam by meeting its interface, such as the real database client or an in-memory fake used by tests. An adapter can be tiny or large; the term is about its job at the seam.
-- **Leverage** - the payoff of depth for callers: each thing learned about the interface unlocks more behaviour, and the work done once inside is reused by every caller, tests included.
-- **Locality** - the payoff of depth for maintainers: when something has to be fixed, changed or understood, there is one module to open rather than a hunt through every caller.
+- **Adapter** - code that fills a seam by meeting its interface, such as the real database client or an in-memory fake used by tests. An adapter can be tiny or large; the term is about the job it does at the seam.
+- **Leverage** - why depth matters to callers: each thing learned about the interface unlocks more behaviour, and the work done once inside is reused by every caller, tests included.
+- **Locality** - why depth matters to maintainers: when something has to be fixed, changed or understood, there is one module to open rather than a hunt through every caller.
 
 One stretch of code can be both an **implementation** and an **adapter**. Pick the word by the question being asked: what is in it, or which slot it fills.
 

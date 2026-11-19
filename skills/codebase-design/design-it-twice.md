@@ -1,6 +1,6 @@
 # Design it twice
 
-Load this when a module's interface is still open and worth getting right: before deepening a module, before adding one that many callers will lean on, or whenever the user asks to see alternatives. An interface settled at the first attempt is usually just the first one thought of, and a designer considering options alone keeps circling back to it. So the alternatives are drawn up apart from each other, each pulled in a different direction, and only then compared. Its terms are the ones defined in [`SKILL.md`](SKILL.md).
+Load this when a module's interface is still open and worth getting right: before deepening a module, before adding one that many callers will lean on, or whenever the user asks to see alternatives. An interface settled at the first attempt is usually just the first one thought of, and a designer considering options alone keeps circling back to it. So the alternatives are drawn up apart from each other, each pulled in a different direction, and only then compared. This guide uses the terms defined in [`SKILL.md`](SKILL.md).
 
 ## 1. Lay out the problem
 
@@ -11,7 +11,7 @@ Before any alternative is drawn up, write the problem down for the user:
 - each dependency and its kind, from [`deepening.md`](deepening.md)
 - where it helps, a handful of lines showing how a caller works today, so the constraints have something concrete to point at
 
-The user does not need to answer before the alternatives begin; step 2 runs while they read.
+The user does not need to answer before the alternatives begin; go straight on to step 2.
 
 ## 2. Draw up the alternatives apart
 
@@ -36,4 +36,4 @@ Show each alternative in full, on its own, before any comparison. Then set them 
 
 Then say which you would build and why. Pieces of different alternatives can be combined when that beats each on its own; say so, and credit each piece to its source. Take a position; a list with no pick leaves the user to do the comparison again.
 
-Which one gets built is the user's call. When it is still open, send it to [[refine]]; once it is settled and clears the ADR bar, record it through [[decision-context]].
+Which one gets built is the user's call, handled as the Hand-offs in [`SKILL.md`](SKILL.md) describe.
