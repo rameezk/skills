@@ -11,23 +11,23 @@ Two other sources of language sit beside this one. `docs/CONTEXT.md`, when it ex
 
 ## Vocabulary
 
-Use these words, and only these, when talking about structure. Each one draws a line a looser word would blur, so say the exact term every time. That holds when an answer is written plainly too: keep the term, and explain it in passing if the reader may not know it, rather than swapping it for an everyday word.
+Whenever one of these ideas comes up, say its term and never a looser stand-in for it. Each term draws a line that a vaguer word would blur. That holds when an answer is written plainly too: keep the term, and explain it in passing if the reader may not know it, rather than swapping it for an everyday word.
 
 - **Module** - anything callers use through an interface: a function, a class, a file, a package, or a slice that cuts across layers. Size plays no part in it.
 - **Interface** - everything a caller has to know to use a module correctly. A signature covers only part of that; a caller also leans on what must be true before calling, which side effects happen, how it fails, and any set-up it needs first, and all of it counts.
 - **Implementation** - the code behind the interface: what a caller never needs to know.
-- **Depth** - how much behaviour a module delivers for each thing a caller must learn about its interface. A **deep** module hides a lot behind a little. A **shallow** module's interface is about as large as the work it does, so calling it is hardly easier than doing that work yourself.
+- **Depth** - how much behaviour a module delivers for each thing a caller must learn about its interface. A **deep** module hides a lot behind a little. A **shallow** module's interface is about as large as the work it does, so calling it is hardly easier than doing that work yourself. Depth is judged from the caller's side: an implementation split into many small pieces is still deep if callers see none of them.
 - **Seam** - the spot a module's interface occupies, and so the spot where one piece of behaviour can be swapped for another while the code that calls it stays untouched. Picking that spot and picking what sits behind it are two separate calls.
-- **Adapter** - a concrete piece of code that plugs into a seam and fulfils its interface, such as the real database client or an in-memory fake for tests. The word names the role it plays, not how big it is.
-- **Leverage** - what callers gain from depth: every fact they learn about an interface buys them more behaviour, and one implementation serves every caller and every test.
-- **Locality** - what maintainers gain from depth: when something has to be fixed, changed or understood, there is one module to open rather than a hunt through every caller.
+- **Adapter** - a concrete piece of code that plugs into a seam and fulfils its interface, such as the real database client or an in-memory fake for tests. Calling something an adapter says which slot it fills, and nothing about how much code is inside it.
+- **Leverage** - the payoff of depth for callers: each thing learned about the interface unlocks more behaviour, and the work done once inside is reused by every caller, tests included.
+- **Locality** - the payoff of depth for maintainers: when something has to be fixed, changed or understood, there is one module to open rather than a hunt through every caller.
 
 Say **implementation** when talking about what a module contains and **adapter** when talking about what fills a seam. One piece of code can be both; the word you pick says which question is on the table.
 
 Some common words are left out on purpose:
 
 - **"service"** and **"component"** - say module. Both carry framework and deployment baggage that says nothing about shape.
-- **"API"** - say interface. "API" usually stops at the signature and leaves out the ordering, errors and guarantees a caller depends on.
+- **"API"** - say interface. "API" usually stops at the signature and leaves out the rest of what a caller relies on.
 - **"boundary"** - say seam when you mean where something can be swapped, and interface when you mean what callers see. "Boundary" is used for too many things to pin either down.
 
 ## Principles
@@ -35,10 +35,9 @@ Some common words are left out on purpose:
 Name each principle when you use it, in the words of its bold heading, so a reader can tell which rule a judgement rests on.
 
 - **The deletion test.** To judge whether a module earns its place, imagine deleting it and putting what it does back into its callers. If the complexity comes back - repeated in each caller, or pushed onto each of them to learn - the module was paying its way. If the complexity just disappears, because the module only handed calls along, it was a pass-through: shallow, and a candidate to fold into its caller or its neighbour. Report the result as "by the deletion test, this module is deep" or "... is shallow", followed by what the test showed.
-- **The interface is the test surface.** Tests use a module the same way its callers do: through its interface, at its seam. Needing to reach past the interface to test something - a private helper, internal state - means the module is the wrong shape, not that the test needs a back door. Seams that exist only inside a deep module, for its own implementation to use, stay out of its interface.
-- **One adapter is a hypothetical seam; two adapters make a real one.** A seam pays for itself only when at least two adapters actually plug into it, usually the production one and one for tests. With a single adapter it is indirection that every reader pays for and nothing uses, so leave it out until the second adapter is real.
+- **The interface is the test surface.** Tests use a module the same way its callers do: through its interface, at its seam. If a test can only check something by going around the interface, into a private helper or internal state, take that as evidence the module is badly shaped and fix the shape rather than adding a back door. Seams that exist only inside a deep module, for its own implementation to use, stay out of its interface.
+- **One adapter is a hypothetical seam; two adapters make a real one.** Count what actually plugs into a seam. Until there are two - commonly the live adapter plus a test double - the seam is a detour every reader must follow for no benefit, so leave it out until the second one exists.
 - **Replace, don't layer.** When shallow modules are merged into a deeper one, write the tests at the new interface and delete the tests that pinned the old shallow pieces. Keeping both leaves the suite twice the size and tied to a structure that no longer exists.
-- **Judge depth from the caller's side.** How the implementation is split up is its own business: it can be one block or many small pieces, so long as callers never see the pieces. When shaping a module, keep pulling decisions inward: fewer entry points, fewer parameters, sensible defaults for the common case, and errors handled inside where the module can handle them.
 
 ## Going further
 

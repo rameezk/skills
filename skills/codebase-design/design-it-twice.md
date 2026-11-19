@@ -1,6 +1,6 @@
 # Design it twice
 
-Load this when a module's interface is still open and worth getting right: before deepening a module, before adding one that many callers will lean on, or whenever the user asks to see alternatives. The first interface that comes to mind is rarely the best one, and a single designer weighing options in one head tends to produce variations on that first idea. So the alternatives are drawn up apart from each other, each pulled in a different direction, and only then compared. Its terms are the ones defined in [`SKILL.md`](SKILL.md).
+Load this when a module's interface is still open and worth getting right: before deepening a module, before adding one that many callers will lean on, or whenever the user asks to see alternatives. An interface settled at the first attempt is usually just the first one thought of, and a designer considering options alone keeps circling back to it. So the alternatives are drawn up apart from each other, each pulled in a different direction, and only then compared. Its terms are the ones defined in [`SKILL.md`](SKILL.md).
 
 ## 1. Lay out the problem
 
@@ -15,22 +15,16 @@ Post the write-up for the user, then start step 2 without waiting for a reply.
 
 ## 2. Draw up the alternatives apart
 
-Draw up at least three alternatives, each by its own sub-agent with a fresh context, launched together so they run in parallel and none sees another's answer. If the harness cannot launch sub-agents, draw them up one at a time and finish each before looking at the next.
+Hand each alternative to a separate sub-agent that starts from a clean context. Aim for three or more, and start them all at once so no draft can see another. If the harness cannot launch sub-agents, draw them up one at a time and finish each before looking at the next.
 
 Give each one the same brief - the files involved, how they are coupled, the dependency kinds, what would sit behind the seam, this skill's vocabulary and the project's terms from `docs/CONTEXT.md` - and one steer of its own, so they pull apart:
 
-- **Smallest interface** - as few entry points as possible, each carrying as much behaviour as it can.
-- **Widest reach** - an interface general enough to serve many uses and grow without changing shape.
-- **Easiest common call** - make what the most frequent caller does trivial, even at some cost to the rare ones.
-- **Seams first** - when dependencies cross a seam, design around the seams and their adapters.
+- **Fewest calls** - a caller gets by with one to three calls, and each call does as much as it can.
+- **Room to grow** - the shape copes with callers and needs that do not exist yet.
+- **The usual caller first** - find the caller that shows up most and make its code one obvious line, accepting more work for unusual callers.
+- **Dependencies drive it** - where dependencies cross a seam, decide the seams and what plugs into each before anything else.
 
-Ask each to return:
-
-1. the interface: its entry points, their inputs and outputs, and the ordering, errors and guarantees a caller relies on
-2. a short example of a caller using it
-3. what stays hidden behind the interface
-4. its seams and adapters, if any, and why each seam is real
-5. where it is strong and where it is weak
+Each one hands back its interface in full, in the sense [`SKILL.md`](SKILL.md) gives the word, then a few lines of caller code using it, what it keeps hidden, the seams it relies on with what fills each, and an honest note on its weak spots.
 
 ## 3. Compare and recommend
 

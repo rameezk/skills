@@ -8,7 +8,7 @@ What shapes a deepening most is what the new module depends on. Sort each depend
 
 ### 1. In-process
 
-Plain computation and in-memory state, with no I/O. Nothing stands in the way: merge the pieces, put the interface where callers need it, and test through that interface with the real code running. No seam and no adapter are called for.
+Logic that never leaves the process: calculations and data held in memory, with nothing read from or written to the outside. Nothing stands in the way: merge the pieces, put the interface where callers need it, and test through that interface with the real code running. No seam and no adapter are called for.
 
 ### 2. Local, with a stand-in
 
@@ -24,4 +24,4 @@ A system you do not control: a payment provider, a mail sender, a vendor's hoste
 
 ## Seams and tests
 
-The seam rules and "replace, don't layer" in [`SKILL.md`](SKILL.md) apply unchanged. What deepening adds is the order the tests move in: first write the tests at the deepened module's interface, then, once they cover the behaviour, delete the tests that pinned the old shallow pieces. Deleting first leaves a gap where nothing guards the behaviour.
+The seam rules and "replace, don't layer" in [`SKILL.md`](SKILL.md) apply as they stand. The one thing deepening adds is order: the old tests go only after the new ones cover the behaviour, since removing them first leaves a stretch where nothing guards it.
