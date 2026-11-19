@@ -12,11 +12,11 @@ Logic that never leaves the process: calculations and data held in memory, with 
 
 ### 2. Local, with a stand-in
 
-Something outside the process that has a faithful local stand-in a test can run for real: a temporary directory for the file system, an embedded or throwaway database for the real one, a local broker for a queue. Deepen the module so it owns the dependency outright, and have the tests run the stand-in. Keep the dependency entirely inside the module: callers see only what they actually have to choose, such as a location.
+Something outside the process that has a faithful local stand-in a test can run for real: a temporary directory for the file system, an embedded or throwaway database for the real one, a local copy of a message broker. Deepen the module so it owns the dependency outright, and have the tests run the stand-in. Keep the dependency entirely inside the module: callers see only what they actually have to choose, such as a location.
 
 ### 3. Across the network, and yours
 
-Code you own that sits across a network or a process gap: another of your own programs, a worker reached over a queue, an internal endpoint. Gather the logic into a single deep module on the near side, and put the transport behind a seam at its edge. Two adapters fill the seam - the real transport for live use, and one that keeps everything in memory for tests - which is exactly what makes it a real seam rather than a hypothetical one.
+Code you own that sits across a network or a process gap: another of your own programs, a worker of yours that you message through a broker, an internal endpoint. Gather the logic into a single deep module on the near side, and put the transport behind a seam at its edge. Two adapters fill the seam - the real transport for live use, and one that keeps everything in memory for tests - which is exactly what makes it a real seam rather than a hypothetical one.
 
 ### 4. Third-party
 

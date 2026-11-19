@@ -22,7 +22,7 @@ Whenever one of these ideas comes up, say its term and never a looser stand-in f
 - **Leverage** - why depth matters to callers: each thing learned about the interface unlocks more behaviour, and the work done once inside is reused by every caller, tests included.
 - **Locality** - why depth matters to maintainers: when something has to be fixed, changed or understood, there is one module to open rather than a hunt through every caller.
 
-One stretch of code can be both an **implementation** and an **adapter**. Pick the word by the question being asked: what is in it, or which slot it fills.
+One stretch of code can be both an **implementation** and an **adapter**. Talking about its contents, call it the implementation; talking about the seam it serves, call it an adapter.
 
 Some common words are left out on purpose:
 
@@ -36,7 +36,7 @@ Name each principle when you use it, in the words of its bold heading, so a read
 
 - **The deletion test.** To judge whether a module earns its place, imagine deleting it and putting what it does back into its callers. If the complexity comes back - repeated in each caller, or pushed onto each of them to learn - the module was paying its way. If the complexity just disappears, because the module only handed calls along, it was a pass-through: shallow, and a candidate to fold into its caller or its neighbour. Report the result as "by the deletion test, this module is deep" or "... is shallow", followed by what the test showed.
 - **The interface is the test surface.** Tests drive a module exactly as its callers do, through its interface at its seam. When a test cannot get at what it needs that way and wants a private helper or internal state, the fault lies with the module's shape: change the shape instead of opening a back door. Seams that exist only inside a deep module, for its own implementation to use, stay out of its interface.
-- **One adapter is a hypothetical seam; two adapters make a real one.** Count what actually plugs into a seam. Until there are two - commonly the live adapter plus a test double - the seam is a detour every reader must follow for no benefit, so leave it out until the second one exists.
+- **One adapter is a hypothetical seam; two adapters make a real one.** Count what actually plugs into a seam. Until there are two - the one used for real, and one more, often for tests - the seam is a detour every reader must follow for no benefit, so leave it out until the second one exists.
 - **Replace, don't layer.** When shallow modules are merged into a deeper one, write the tests at the new interface and delete the tests that pinned the old shallow pieces. Keeping both leaves the suite twice the size and tied to a structure that no longer exists.
 
 ## Going further
