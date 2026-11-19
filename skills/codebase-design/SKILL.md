@@ -11,16 +11,16 @@ Two other sources of language sit beside this one. `docs/CONTEXT.md`, when it ex
 
 ## Vocabulary
 
-Use these words, and only these, when talking about structure. Each one draws a line a looser word would blur, so say the exact term every time.
+Use these words, and only these, when talking about structure. Each one draws a line a looser word would blur, so say the exact term every time. That holds when an answer is written plainly too: keep the term, and explain it in passing if the reader may not know it, rather than swapping it for an everyday word.
 
 - **Module** - anything callers use through an interface: a function, a class, a file, a package, or a slice that cuts across layers. Size plays no part in it.
-- **Interface** - everything a caller has to know to use a module correctly. The signature is only the start of it: the order calls must come in, the errors that come back, the configuration it expects, what it costs to call, and the guarantees it keeps all belong to the interface too.
+- **Interface** - everything a caller has to know to use a module correctly. A signature covers only part of that; a caller also leans on what must be true before calling, which side effects happen, how it fails, and any set-up it needs first, and all of it counts.
 - **Implementation** - the code behind the interface: what a caller never needs to know.
 - **Depth** - how much behaviour a module delivers for each thing a caller must learn about its interface. A **deep** module hides a lot behind a little. A **shallow** module's interface is about as large as the work it does, so calling it is hardly easier than doing that work yourself.
-- **Seam** - a place where behaviour can change without editing the code at that place: where a module's interface sits, and where something else could be plugged in instead. Where to put a seam is a decision of its own, separate from what goes behind it.
+- **Seam** - the spot where a module's interface lives, and so the spot where one piece of behaviour can be swapped for another while the code that calls it stays untouched. Picking that spot and picking what sits behind it are two separate calls.
 - **Adapter** - a concrete piece of code that plugs into a seam and fulfils its interface, such as the real database client or an in-memory fake for tests. The word names the role it plays, not how big it is.
 - **Leverage** - what callers gain from depth: every fact they learn about an interface buys them more behaviour, and one implementation serves every caller and every test.
-- **Locality** - what maintainers gain from depth: a change, a bug or a piece of knowledge lives in one module instead of being spread across its callers.
+- **Locality** - what maintainers gain from depth: when something has to be fixed, changed or understood, there is one module to open rather than a hunt through every caller.
 
 Say **implementation** when talking about what a module contains and **adapter** when talking about what fills a seam. One piece of code can be both; the word you pick says which question is on the table.
 
@@ -32,11 +32,13 @@ Some common words are left out on purpose:
 
 ## Principles
 
-- **The deletion test.** To judge whether a module earns its place, imagine deleting it and putting what it does back into its callers. If the complexity comes back - repeated in each caller, or pushed onto each of them to learn - the module was paying its way. If the complexity just disappears, because the module only handed calls along, it was a pass-through: shallow, and a candidate to fold into its caller or its neighbour. Give the verdict in these words - the module is deep or it is shallow - and say what the test showed to get there.
+Name each principle when you use it, in the words of its bold heading, so a reader can tell which rule a judgement rests on.
+
+- **The deletion test.** To judge whether a module earns its place, imagine deleting it and putting what it does back into its callers. If the complexity comes back - repeated in each caller, or pushed onto each of them to learn - the module was paying its way. If the complexity just disappears, because the module only handed calls along, it was a pass-through: shallow, and a candidate to fold into its caller or its neighbour. Report the result as "by the deletion test, this module is deep" or "... is shallow", followed by what the test showed.
 - **The interface is the test surface.** Tests use a module the same way its callers do: through its interface, at its seam. Needing to reach past the interface to test something - a private helper, internal state - means the module is the wrong shape, not that the test needs a back door. A deep module can have seams inside it that its own implementation uses, but they stay out of its interface.
 - **One adapter is a hypothetical seam; two adapters make a real one.** A seam pays for itself only when at least two adapters actually plug into it, usually the production one and one for tests. With a single adapter it is indirection that every reader pays for and nothing uses, so leave it out until the second adapter is real.
 - **Replace, don't layer.** When shallow modules are merged into a deeper one, write the tests at the new interface and delete the tests that pinned the old shallow pieces. Keeping both leaves the suite twice the size and tied to a structure that no longer exists.
-- **Depth belongs to the interface, not to the size of the code.** A deep module can be built from many small parts; they just do not show through its interface. When shaping one, keep pulling decisions inward: fewer entry points, fewer parameters, sensible defaults for the common case, and errors handled inside where the module can handle them.
+- **Judge depth from the caller's side.** How the implementation is split up is its own business: it can be one block or many small pieces, so long as callers never see the pieces. When shaping a module, keep pulling decisions inward: fewer entry points, fewer parameters, sensible defaults for the common case, and errors handled inside where the module can handle them.
 
 ## Going further
 

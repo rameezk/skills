@@ -20,18 +20,8 @@ Code you own that sits across a network or a process gap: another of your own pr
 
 ### 4. Third-party
 
-A system you do not control: a payment provider, a mail sender, a vendor's hosted service. The deepened module takes it through a seam, and tests plug in a fake adapter that behaves as the provider is documented to. This is the only kind where a stand-in written for tests is the norm rather than a fallback.
+A system you do not control: a payment provider, a mail sender, a vendor's hosted platform. The deepened module takes it through a seam, and tests plug in a fake adapter. Unlike the in-memory adapter for your own code in kind 3, this fake imitates a system you cannot see inside, so keep it to what the provider documents and nothing more.
 
-## Seams inside and at the edge
+## Seams and tests
 
-A deep module often has seams inside its implementation that its own tests use, as well as the seam where its interface sits. Keep the inner ones out of the interface. Exposing a seam just because a test reaches for it makes the module shallower for every caller.
-
-Before adding any seam, count its adapters. If only one would ever plug in, there is no seam yet, only indirection - leave it out.
-
-## Moving the tests
-
-Deepening is also a change to the test suite, and it runs in one direction:
-
-1. Write the tests for the deepened module at its new interface, asserting on what callers can observe.
-2. Once they cover the behaviour, delete the tests that pinned the old shallow pieces. They test a structure that no longer exists, and keeping them beside the new ones only doubles the suite.
-3. A test that breaks under a refactor that leaves behaviour alone is testing past the interface. Rewrite it at the interface or drop it.
+The seam rules and "replace, don't layer" in [`SKILL.md`](SKILL.md) apply unchanged. What deepening adds is the order the tests move in: first write the tests at the deepened module's interface, then, once they cover the behaviour, delete the tests that pinned the old shallow pieces. Deleting first leaves a gap where nothing guards the behaviour.

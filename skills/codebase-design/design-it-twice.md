@@ -9,9 +9,9 @@ Before any alternative is drawn up, write the problem down for the user:
 - what callers need from the module, and which callers matter most
 - the constraints any interface has to meet, including the ADRs it must sit inside
 - each dependency and its kind, from [`deepening.md`](deepening.md)
-- a few lines of illustrative code, only to make the constraints concrete - not a proposal
+- where it helps, a handful of lines showing how a caller works today, so the constraints have something concrete to point at
 
-Share it and carry straight on; the user can read it while the alternatives are drawn up.
+Post this to the user, then start step 2 without waiting for a reply.
 
 ## 2. Draw up the alternatives apart
 
@@ -34,12 +34,12 @@ Ask each to return:
 
 ## 3. Compare and recommend
 
-Present the alternatives one after another so each can be taken in, then compare them on three things:
+Show each alternative in full, on its own, before any comparison. Then set them against each other on three things:
 
 - **depth** - how much behaviour each gives for what a caller has to learn
 - **locality** - where a future change or bug would land in each
 - **seam placement** - where each puts its seams, and whether they are real
 
-Then say which you would build and why, or a combination if parts of different alternatives fit together better. Take a position; a list with no pick leaves the user to do the comparison again.
+Then say which you would build and why. If the strongest answer borrows pieces from more than one alternative, recommend that mix and say which piece came from where. Take a position; a list with no pick leaves the user to do the comparison again.
 
 Which one gets built is the user's call. When it is still open, send it to [[refine]]; once it is settled and clears the ADR bar, record it through [[decision-context]].
