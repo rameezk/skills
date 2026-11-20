@@ -49,7 +49,7 @@ pre { background: var(--code); border: 1px solid var(--line); border-radius: 6px
 <article class="card">
   <header>
     <span class="kind">{{Deepening | Test | Drift}}</span>
-    <h2>{{candidate title}}</h2>
+    <h2>{{number}}. {{candidate title}}</h2>
     <span class="badge {{strong | worth-exploring | speculative}}">{{Strong | Worth exploring | Speculative}}</span>
   </header>
   <p class="note">Fails: {{one or more of Duplicate, Cross-layer redundant, Implementation-pinned, Tautological, Orphaned}}</p>
@@ -72,7 +72,7 @@ pre { background: var(--code); border: 1px solid var(--line); border-radius: 6px
 
 <section class="top">
   <h2>Top recommendation</h2>
-  <p>{{the one candidate to take on first, and why}}</p>
+  <p>{{the one candidate to take on first, by number and title, and why}}</p>
 </section>
 </main>
 </body>
