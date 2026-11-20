@@ -1,15 +1,16 @@
 # When to mock
 
-Load this when a test needs to stand in for something it should not really call. Mocking is where implementation-coupled tests are born, so the default is: don't, unless you are at a system boundary.
+Load this when a test needs to stand in for something it should not really call. Mocking is where implementation-coupled tests are born, so the default is: don't, unless the seam leads to something outside your control. A mock or fake is an adapter in the sense [[codebase-design]] gives the word, and whether a dependency gets a seam at all is settled by its kind in that skill's guide to deepening a module; this file covers only how a test uses one.
 
-## Mock at system boundaries only
+## Mock only at seams onto the outside
 
 Mock:
 
-- external services (payment, email, third-party APIs)
+- third-party systems (payment, email, a vendor's hosted platform)
+- your own programs across a network, with an in-memory adapter at the seam
 - databases - sometimes; prefer a real test database
 - time and randomness
-- the file system - sometimes
+- the file system - sometimes; prefer a temporary directory
 
 Do NOT mock:
 
@@ -17,14 +18,14 @@ Do NOT mock:
 - internal collaborators
 - anything you control
 
-Mocking an internal collaborator couples the test to how the code is wired, so it breaks on refactors that change nothing observable. That is the single most common way a test suite becomes painful to change. Test through the seam and let the real internals run.
+Mocking an internal collaborator couples the test to how the code is wired, so it breaks on refactors that change nothing observable. That is the single most common way a test suite becomes painful to change. Test through the interface at the seam and let the real implementation run.
 
-## Design boundaries to be mockable
+## Shape seams so a test adapter fits
 
 **Inject dependencies** rather than constructing them inside:
 
 ```
-# Easy to substitute at the boundary
+# Easy to fill the seam with a test adapter
 processPayment(order, paymentClient) -> paymentClient.charge(order.total)
 
 # Hard - reaches out and builds its own client from the environment
@@ -43,4 +44,4 @@ api.createOrder(data)
 api.fetch(endpoint, options)
 ```
 
-The SDK-style shape means each stub returns one known shape, no branching in setup, and it is obvious from the test which boundary operations a behaviour exercises.
+The SDK-style shape means each stub returns one known shape, no branching in setup, and it is obvious from the test which operations across the seam a behaviour exercises.
