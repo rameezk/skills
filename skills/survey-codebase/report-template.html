@@ -28,6 +28,8 @@ h1 { font-size: 1.6rem; margin: 0 0 4px; }
 .badge.strong { color: var(--strong); background: var(--strong-bg); }
 .badge.worth-exploring { color: var(--worth); background: var(--worth-bg); }
 .badge.speculative { color: var(--spec); background: var(--spec-bg); }
+.kind { font-size: .75rem; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); border: 1px solid var(--line); padding: 1px 8px; border-radius: 4px; white-space: nowrap; }
+.note { border-left: 3px solid var(--muted); border-radius: 0 6px 6px 0; padding: 6px 12px; margin: 8px 0 0; background: var(--code); }
 .adr { border-left: 3px solid var(--worth); border-radius: 0 6px 6px 0; padding: 6px 12px; margin: 8px 0 0; background: var(--worth-bg); color: var(--worth); }
 h3 { font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin: 16px 0 4px; }
 code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; }
@@ -46,18 +48,21 @@ pre { background: var(--code); border: 1px solid var(--line); border-radius: 6px
 
 <article class="card">
   <header>
+    <span class="kind">{{Deepening | Test | Drift}}</span>
     <h2>{{candidate title}}</h2>
     <span class="badge {{strong | worth-exploring | speculative}}">{{Strong | Worth exploring | Speculative}}</span>
   </header>
-  <p class="adr">Reopens {{ADR}}: {{why the friction goes past what it weighed}}</p>
+  <p class="note">Fails: {{one or more of Duplicate, Cross-layer redundant, Implementation-pinned, Tautological, Orphaned}}</p>
+  <p class="note">Diverges from {{ADR or CONTEXT.md term, by path and title}}</p>
+  <p class="adr">Reopens {{ADR}}: {{why the problem goes past what it weighed}}</p>
   <h3>Files</h3>
   <ul><li><code>{{path}}</code></li></ul>
   <h3>Problem</h3>
-  <p>{{the friction today}}</p>
+  <p>{{the problem today}}</p>
   <h3>Solution</h3>
-  <p>{{the deeper module, its interface, and how the tests move}}</p>
+  <p>{{the fix, as the skill describes it for this kind}}</p>
   <h3>Benefits</h3>
-  <p>{{what it buys, in leverage and locality}}</p>
+  <p>{{what callers and maintainers gain}}</p>
   <h3>Before / After</h3>
   <div class="diagram">
     <figure><figcaption>Before</figcaption><pre>{{diagram}}</pre></figure>
