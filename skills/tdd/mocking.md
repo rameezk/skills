@@ -7,10 +7,9 @@ Load this when a test needs to stand in for something it should not really call.
 Mock:
 
 - third-party systems (payment, email, a vendor's hosted platform)
-- your own programs across a network, with an in-memory adapter at the seam
 - databases - sometimes; prefer a real test database
 - time and randomness
-- the file system - sometimes; prefer a temporary directory
+- the file system - sometimes
 
 Do NOT mock:
 
