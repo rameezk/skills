@@ -104,7 +104,7 @@ Each card carries:
 - **Problem** - the friction the current shape causes. For a deepening candidate, judged by the deletion test and the other principles of [[codebase-design]]; for a test candidate, the behaviour at stake and why the test adds nothing or proves the wrong thing; for a drift candidate, what the ADR or term says and what the code does instead.
 - **Solution** - for a deepening candidate, the deeper module that would replace it: its interface, what it hides, the seams it keeps and what fills them, and how the tests move under "replace, don't layer". For a test candidate, which test goes, which is merged into which, or which is rewritten at what seam, and which test still proves the behaviour afterwards. For a drift candidate, both ways back - the code brought into line, or the ADR superseded or the term updated - and which one the evidence favours.
 - **Benefits** - what callers and maintainers gain: leverage and locality, a suite that is cheaper to run and to change, or code and docs that say the same thing.
-- **Before / After** - two small diagrams, as things are and as they would be: of the modules and their callers, of the tests and the behaviours they pin, or of the code beside the decision it should follow.
+- **Before / After** - two small diagrams, as things are and as they would be: of the modules and their callers, of the tests and the behaviours they pin, or of the code beside the decision it should follow. The two sit side by side, so keep each within 40 columns.
 - **An ADR note**, only on a deepening or test candidate kept under step 3: the ADR it would reopen and why.
 - **A strength badge**, one of:
   - `Strong` - the problem is visible in the code and its history, and the fix is clear.
