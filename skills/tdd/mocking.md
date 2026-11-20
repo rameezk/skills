@@ -1,21 +1,17 @@
 # When to mock
 
-Load this when a test needs to stand in for something it should not really call. Mocking is where implementation-coupled tests are born, so the default is: don't, unless the seam leads to something outside your control. A mock or fake is an adapter in the sense [[codebase-design]] gives the word, and whether a dependency gets a seam at all is settled by its kind in that skill's guide to deepening a module; this file covers only how a test uses one.
+Load this when a test needs to stand in for something it should not really call. Mocking is where implementation-coupled tests are born, so the default is: don't, unless the dependency's kind calls for a test adapter at its seam. A mock or fake is an adapter in the sense [[codebase-design]] gives the word.
 
-## Mock only at seams onto the outside
+## Where to mock
 
-Mock:
+Whether a dependency gets a seam, and what fills it in a test, follows its kind in [[codebase-design]]'s guide to deepening a module:
 
-- third-party systems (payment, email, a vendor's hosted platform)
-- databases - sometimes; prefer a real test database
-- time and randomness
-- the file system - sometimes
+- **In-process** - your own modules, classes and functions, and internal collaborators: never mock. There is no seam to fill.
+- **Local, with a stand-in** - a database, the file system: don't mock either. Run the faithful stand-in, such as a throwaway database or a temporary directory.
+- **Across the network, and yours** - another of your own programs, an internal endpoint: fill the seam at the transport's edge with an in-memory adapter.
+- **Third-party** - payment, email, a vendor's hosted platform: fill the seam with a fake that does only what the provider documents.
 
-Do NOT mock:
-
-- your own modules, classes, or functions
-- internal collaborators
-- anything you control
+Time and randomness sit outside those kinds: substitute them so the test stays deterministic.
 
 Mocking an internal collaborator couples the test to how the code is wired, so it breaks on refactors that change nothing observable. That is the single most common way a test suite becomes painful to change. Test through the interface at the seam and let the real implementation run.
 

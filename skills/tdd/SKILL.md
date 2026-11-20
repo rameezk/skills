@@ -17,7 +17,7 @@ Tests drive code at a seam, through the interface its callers use, never against
 
 This agreement is the precondition [[work-on]] relies on when it drives this skill. If the seams were settled upstream in a spec, restate them and confirm; if nothing settled them, settle them here before the first test.
 
-When a test needs to stand in for a dependency at a seam, see [`mocking.md`](mocking.md) - the default is don't, unless the seam leads to something outside your control.
+When a test needs to stand in for a dependency at a seam, see [`mocking.md`](mocking.md) - the default is don't, unless the dependency's kind in [[codebase-design]] calls for a test adapter.
 
 ## The loop
 
