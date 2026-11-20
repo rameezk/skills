@@ -11,13 +11,13 @@ When exploring the codebase, read `docs/CONTEXT.md` if it exists so test names a
 
 ## Seams: agree before testing
 
-A **seam** is the public boundary you test at - the interface where you observe behaviour without reaching inside. Tests live at seams, never against internals.
+Tests drive code at a seam, through the interface its callers use, never against the implementation behind it. What a seam, an interface and an adapter are, and when a seam is real, is defined in [[codebase-design]] and nowhere else: load it before naming the seams under test, and name them in its vocabulary. That is what keeps the seam agreed in [[refine]] and recorded in the spec the same seam tested here.
 
 **Test only at pre-agreed seams.** Before writing any test, state the seams under test and confirm them with the user. No test is written at an unconfirmed seam. You cannot test everything, so agreeing the seams up front is how testing effort lands on the critical paths and complex logic instead of every edge case. Ask: "What is the public interface here, and which seams should we test?"
 
 This agreement is the precondition [[work-on]] relies on when it drives this skill. If the seams were settled upstream in a spec, restate them and confirm; if nothing settled them, settle them here before the first test.
 
-When a test needs to stand in for a dependency at a seam, see [`mocking.md`](mocking.md) - the default is don't, unless it's a system boundary.
+When a test needs to stand in for a dependency at a seam, see [`mocking.md`](mocking.md) - the default is don't, unless the dependency's kind in [[codebase-design]] calls for a test adapter.
 
 ## The loop
 
