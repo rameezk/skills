@@ -6,12 +6,12 @@ Load this when a test needs to stand in for something it should not really call.
 
 Whether a dependency gets a seam, and what fills it in a test, follows its kind in [[codebase-design]]'s guide to deepening a module:
 
-- **In-process** - your own modules, classes and functions, and internal collaborators: never mock. There is no seam to fill.
+- **In-process** - logic that never leaves the process, reading and writing nothing outside it, such as the internal collaborators behind a module's interface: never mock. There is no seam to fill.
 - **Local, with a stand-in** - a database or the file system that a test can run a faithful local copy of: don't mock either. Run the faithful stand-in, such as a throwaway database or a temporary directory.
 - **Across the network, and yours** - another of your own programs, an internal endpoint: fill the seam at the transport's edge with an in-memory adapter.
 - **Third-party** - payment, email, a vendor's hosted platform: fill the seam with a fake that does only what the provider documents.
 
-Substitute time and randomness too, so the test stays deterministic.
+The clock and the source of randomness are read from outside the process too, and no stand-in makes them repeatable, so give each a seam: inject it, the real one for live use and a fixed adapter in tests, so the test stays deterministic.
 
 Mocking an internal collaborator couples the test to how the code is wired, so it breaks on refactors that change nothing observable. That is the single most common way a test suite becomes painful to change. Test through the interface at the seam and let the real implementation run.
 
