@@ -52,17 +52,17 @@ pre { background: var(--code); border: 1px solid var(--line); border-radius: 6px
     <h2>{{candidate title}}</h2>
     <span class="badge {{strong | worth-exploring | speculative}}">{{Strong | Worth exploring | Speculative}}</span>
   </header>
-  <p class="note">Fails: {{duplicate | cross-layer redundant | implementation-pinned | tautological | orphaned}}</p>
-  <p class="note">Diverges from {{ADR or CONTEXT.md term}}</p>
-  <p class="adr">Reopens {{ADR}}: {{why the friction goes past what it weighed}}</p>
+  <p class="note">Fails: {{one or more of Duplicate, Cross-layer redundant, Implementation-pinned, Tautological, Orphaned}}</p>
+  <p class="note">Diverges from {{ADR or CONTEXT.md term, by path and title}}</p>
+  <p class="adr">Reopens {{ADR}}: {{why the problem goes past what it weighed}}</p>
   <h3>Files</h3>
   <ul><li><code>{{path}}</code></li></ul>
   <h3>Problem</h3>
-  <p>{{the friction today}}</p>
+  <p>{{the problem today}}</p>
   <h3>Solution</h3>
-  <p>{{the deeper module, its interface, and how the tests move}}</p>
+  <p>{{the fix, as the skill describes it for this kind}}</p>
   <h3>Benefits</h3>
-  <p>{{what it buys, in leverage and locality}}</p>
+  <p>{{what callers and maintainers gain}}</p>
   <h3>Before / After</h3>
   <div class="diagram">
     <figure><figcaption>Before</figcaption><pre>{{diagram}}</pre></figure>
