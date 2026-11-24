@@ -237,15 +237,56 @@ Never do the step from the summary here.
    formatter, linter, and type-checker clean, however this repo runs them.
 3. **Commit the fix.** Record each fix as a focused follow-up commit via
    [[git-committing]] on the PR's branch.
-4. **Review, proportionally.** For a behaviour change, put the updated diff
-   through [[code-review]] and [[security-review]] and drive the
-   review-fix-re-review loop to sign-off, as [[work-on]] does. A trivial fix - a
-   typo, a rename, a one-line correction - does not need both reviews; use
-   judgement and say what you ran.
 
-## Push
+## Review the fixes
 
-Push the follow-up commits to the PR branch:
+Every fix commit is new code, and is reviewed before anything is pushed, every
+time. There is no size below which a fix skips review: a one-line correction can
+reach security as easily as a large one. A review may skip only commits that
+provably cannot reach its domain, by the test in step 3 below.
+
+Review the fixes, not the whole PR: the commits from `pre_fix_head` to the head.
+
+1. **Launch both reviews as sub-agents, in one message.** Once every
+   actionable item's fix is committed, spawn two sub-agents in a single message
+   so they run concurrently, each in its own context with fresh eyes on fixes
+   this session is biased toward: one runs [[code-review]], the other
+   [[security-review]]. Tell each to load its skill by reading every line of
+   `../<name>/SKILL.md` and the files it links to, and to follow it in full.
+   Never run a review inline in this session, and never stand in for one with
+   your own reading of the diff.
+2. **Pin the range.** Pass each sub-agent `pre_fix_head` as the fixed point and
+   the head as the exact SHA from `git rev-parse HEAD` at launch - never a bare
+   `HEAD`. Hand [[code-review]] the items being addressed, each with its URL and
+   what it asks, as the spec the fixes are meant to meet. Each review states the
+   range it covered on its first line; record that SHA against its result.
+3. **Fix, then re-review.** Fix each real finding through the same
+   *Address end-to-end* steps an item goes through, as its own follow-up
+   commit. For a finding you judge not worth acting on, say which and why. Then
+   run again every review whose domain the new commits could reach - scoped to
+   what the commits changed, not to which review raised the finding, so a fix
+   for a [[code-review]] finding still gets a fresh [[security-review]]. A
+   review skips a re-run only when the new commits provably cannot reach its
+   domain, such as a docs-only follow-up for [[security-review]], and you can
+   name each such commit and why. A clean prior result is never on its own a
+   reason to skip; when unsure, re-run it.
+4. **Repeat until both sign off** - no actionable findings left beyond the
+   ones explicitly set aside with reasons. If a reviewer keeps raising the same
+   finding and you keep declining it, stop and surface the disagreement rather
+   than looping.
+
+A run whose items needed no code change - only answers, declines and
+acknowledgements - has no fix commits and nothing to review.
+
+## Push - only once both reviews cover the head
+
+Before pushing, run `git rev-parse HEAD` and check each review in turn. A review
+covers the head when its last clean pass was at exactly that SHA, or when every
+commit after that pass provably cannot reach its domain, by the same test as
+*Review the fixes*, and you can name each such commit and why. If either review
+does not cover the head, go back to *Review the fixes* - do not push.
+
+Then push the follow-up commits to the PR branch:
 
 ```bash
 git push
@@ -262,15 +303,16 @@ are required from `gh pr checks --required`, or take every reported check when
 it names none. A PR that
 conflicts with its base never gets its checks, so watch its mergeability on every
 poll and resolve a conflict the way [[work-on]] does - merge the base in, keep
-both sides' intent, run the checks and suite, review what the resolution changed,
-push, and wait again. If a check never appears on a mergeable PR, find out why
+both sides' intent, run the checks and suite, put what the resolution changed
+through *Review the fixes* with the merged base commit as the fixed point,
+push once both reviews cover the head, and wait again. If a check never appears on a mergeable PR, find out why
 and report it rather than calling the checks green.
 
 When a required check fails, read its log, then fix the cause through the same
 *Address end-to-end* loop an item goes through: test-first when there is
-behaviour to test, mechanical checks clean, a focused follow-up commit, and a
-proportional review of what the fix changed. Push, and watch again, until every
-required check is green. A CI fix answers no item, so it gets no reply of its
+behaviour to test, mechanical checks clean, and a focused follow-up commit. The
+fix is new code: put it through *Review the fixes*, and push only once both
+reviews cover the head. Then watch again, until every required check is green. A CI fix answers no item, so it gets no reply of its
 own. If the checks cannot be read at all - a token without access to them, say -
 say so in the report rather than claiming they passed.
 
@@ -282,8 +324,7 @@ made it describe an older head. Once the checks are green, edit it with
 [[git-pr]]'s rules: each review's last clean SHA, and for every commit after it,
 the commit and why it cannot reach that review's domain. A commit you cannot
 name that way for some review means that review has to run on it first - go
-back to *Address end-to-end*'s review step, then push and wait for the checks
-again. Change only that section; the rest of the description is the author's.
+back to *Review the fixes*, then push and wait for the checks again. Change only that section; the rest of the description is the author's.
 If the PR has no `## Reviews` section, do not add one.
 
 ## Show what changed in the UI
@@ -382,6 +423,8 @@ merge (see [[work-on]]).
   session link to a reply body or a commit.
 - Never resolve a thread - answering is where this skill stops. Resolving is the
   reviewer's call.
+- Never push a commit that [[code-review]] and [[security-review]] have not
+  both covered, each run in its own sub-agent.
 - Every item gets an answer - a declined item gets a reply saying why, and only
   an acknowledgement on a review summary or conversation comment is answered
   with 👍 alone. Never silence.
@@ -395,11 +438,13 @@ merge (see [[work-on]]).
 Done when every open item - review thread, review summary and conversation
 comment, or exactly the listed items when your instructions gave a list - has
 been addressed and answered (fix committed, pushed, replied), explicitly
-declined with a reply, or acknowledged, the repo's checks are clean, the reviews
-that ran came back signed off, the PR's required checks are green on the pushed
+declined with a reply, or acknowledged, the repo's checks are clean, any fix
+commits were reviewed by [[code-review]] and [[security-review]], each in its
+own sub-agent, driven to sign-off and covering the pushed head, the PR's required checks are green on the pushed
 head, any `## Reviews` section covers that head, and when the run changed the
 UI, the `## Before / After` section shows that head and every visual fix's
 answer carries its pairs. Threads are left open for the reviewer to resolve.
-Report the PR URL, each item's disposition, the fix commit SHAs, the final test
-and check results, the required checks' final state, and the before/after
+Report the PR URL, each item's disposition, the fix commit SHAs, how the review
+findings were handled with each review's last clean SHA, the final test and
+check results, the required checks' final state, and the before/after
 assets commit SHAs.
